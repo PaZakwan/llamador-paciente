@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Pantalla del publico</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body class="container-fluid publico px-0" style="height: 100%">
+    <nav class="navbar navbar-expand navbar-light bg-light" style="height: 4%">
+      <a href="index.html">
+        <img
+          src="/img/logo-64x64.png"
+          width="32"
+          height="32"
+          class="d-inline-block align-top"
+          alt="Moreno"
+        />
+      </a>
+      <!-- BOTON PARA ACTIVAR EL SONIDO... PORQUE SI A LA PAGINA SE INGRESA DESDE LA URL O RECARGA NO EJECUTA SONIDO.. -->
+      <div class="col align-self-center text-right">
+        <input
+          id="CheckSound"
+          type="checkbox"
+          class="form-check-input"
+          checked="checked"
+          onchange="playSound()"
+          style="cursor: pointer"
+        />
+        <label for="CheckSound" class="badge badge-info form-check-label" style="cursor: pointer"
+          >Activar Sonido</label
+        >
+      </div>
+    </nav>
+    <div class="row align-items-center justify-content-center mx-0" style="height: 96%">
+      <!-- ACTUAL -->
+      <div class="col-8 align-self-center text-center">
+        <u>
+          <h1 id="lblConsultorio1" class="paciente-actual-consultorio text-break">Espere...</h1>
+        </u>
+        <span id="lblPaciente1" class="paciente-actual-nombre text-break"></span>
+      </div>
+
+      <!-- SECUNDARIOS -->
+      <div class="col-4 align-self-center text-center paciente-secundario" style="height: 100%">
+        <div class="row align-items-center justify-content-center mx-0" style="height: 100%">
+          <div class="mh-50 col-12 align-self-center text-center px-0">
+            <u>
+              <h2 id="lblConsultorio2" class="text-break">Espere...</h2>
+            </u>
+            <span id="lblPaciente2" class="text-break"></span>
+          </div>
+          <hr class="w-100 border border-info my-0" />
+          <div class="mh-50 col-12 align-self-center text-center px-0">
+            <u>
+              <h2 id="lblConsultorio3" class="text-break">Espere...</h2>
+            </u>
+            <span id="lblPaciente3" class="text-break"></span>
+          </div>
+          <hr class="w-100 border border-info my-0" />
+          <div class="mh-50 col-12 align-self-center text-center px-0">
+            <u>
+              <h2 id="lblConsultorio4" class="text-break">Espere...</h2>
+            </u>
+            <span id="lblPaciente4" class="text-break"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/libs/jquery.slim.min.js"></script>
+    <script src="js/libs/bootstrap.bundle.min.js"></script>
+
+    <script src="socket.io/socket.io.js"></script>
+    <script src="js/socket.publico.js"></script>
+  </body>
+</html>

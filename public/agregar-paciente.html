@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Nuevo Paciente</title>
+
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+
+  <body>
+    <br />
+    <h1 class="display-1">Mesa de Entrada</h1>
+    <br />
+
+    <div class="row justify-content-center">
+      <div class="col text-center">
+        <h1><u>Ultimo en la Espera...</u></h1>
+        <br />
+        <span id="lblUltimoPacienteAgregado"> Cargando... </span>
+      </div>
+    </div>
+
+    <br />
+    <br />
+
+    <div class="row justify-content-center">
+      <div class="col-6 form-group text-center">
+        <h1><u>Nuevo Paciente</u></h1>
+        <br />
+        <form id="form" action="" class="was-validated">
+          <input
+            id="pacienteInput"
+            class="form-control"
+            autocomplete="off"
+            type="text"
+            name="nombre"
+            placeholder="Nombre del Paciente"
+            required
+          />
+          <div class="invalid-feedback">Por favor ingrese el nombre del nuevo Paciente.</div>
+          <br />
+          <a class="btn btn-danger btn-lg" href="index.html">Salir</a>
+          <button type="submit" class="btn btn-warning btn-lg">Agregar Paciente a la Espera</button>
+        </form>
+      </div>
+    </div>
+
+    <script src="js/libs/jquery.slim.min.js"></script>
+    <script src="js/libs/bootstrap.bundle.min.js"></script>
+
+    <script src="socket.io/socket.io.js"></script>
+    <script src="js/socket.agregar-paciente.js"></script>
+  </body>
+</html>

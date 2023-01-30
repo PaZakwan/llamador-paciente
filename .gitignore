@@ -1,0 +1,14 @@
+
+
+# Ignora todos los archivos con las siguientes extenciones
+*.exe
+*.bat
+*.log
+
+
+# Ignora la carpeta node_modules
+node_modules/
+server/data/
+
+# Ignora archivos
+package-lock.json

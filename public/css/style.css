@@ -1,0 +1,43 @@
+html,
+body {
+  height: 100%;
+  width: 100%;
+  background-color: #6951f0;
+  color: white;
+}
+
+table {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.publico {
+  background-color: #282828;
+  text-transform: capitalize;
+}
+
+.paciente-actual-nombre {
+  font-size: 80px;
+}
+
+.paciente-actual-consultorio {
+  font-size: 120px;
+}
+
+.paciente-secundario {
+  background-color: #6951f0;
+  font-size: 40px;
+}
+
+/* Nuevo-Paciente */
+
+#lblUltimoPacienteAgregado {
+  text-transform: capitalize;
+  font-size: 70px;
+}
+
+.invalid-feedback {
+  color: #ffb74d;
+  /* background-color: #bf360c; */
+}

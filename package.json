@@ -1,0 +1,31 @@
+{
+  "name": "nodejs-socket-llamador",
+  "version": "1.0.0",
+  "description": "Sistema para llamar personas en la sala de espera desde los consultorios",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "nodemon server/server.js",
+    "clean": "IF NOT EXIST dist MKDIR dist && rd /s /q dist && mkdir dist",
+    "prebuild": "npm run clean",
+    "build": "set NODE_OPTIONS=--max_old_space_size=2048 && ncc build server/server.js -o dist",
+    "testB": "nodemon dist/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "heroku-postbuild": "echo Skip build on Heroku"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "server/data/*"
+    ]
+  },
+  "author": "Paz Juan",
+  "license": "AGPL-3.0-only",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.5.4"
+  }
+}
