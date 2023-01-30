@@ -9,18 +9,23 @@ class Paciente {
 
 class PacienteControl {
   constructor() {
-    this.ultimoAgregado = 0;
     this.hoy = new Date().getDate();
+    this.ultimoAgregado = 0;
     this.pacientesEspera = [];
     this.ultimosAtendidos4 = [];
 
-    let data = require("../data/data.json");
-
-    if (data.hoy === this.hoy) {
-      this.ultimoAgregado = data.ultimoAgregado;
-      this.pacientesEspera = data.pacientesEspera;
-      this.ultimosAtendidos4 = data.ultimosAtendidos4;
-    } else {
+    try {
+      // si existe data la carga
+      let data = require("../data/data.json");
+      // si la data es actual la carga
+      if (data.hoy === this.hoy) {
+        this.ultimoAgregado = data.ultimoAgregado;
+        this.pacientesEspera = data.pacientesEspera;
+        this.ultimosAtendidos4 = data.ultimosAtendidos4;
+      } else {
+        this.reiniciarConteo();
+      }
+    } catch (error) {
       this.reiniciarConteo();
     }
   }
