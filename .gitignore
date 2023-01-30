@@ -8,7 +8,10 @@
 
 # Ignora la carpeta node_modules
 node_modules/
-server/data/
+server/data/*
 
 # Ignora archivos
 package-lock.json
+
+# omitir ignoracion xD
+!server/data/.gitkeep
