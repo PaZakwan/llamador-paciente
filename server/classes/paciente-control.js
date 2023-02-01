@@ -10,7 +10,7 @@ class Paciente {
 class PacienteControl {
   constructor() {
     this.hoy = new Date().getDate();
-    this.ultimoAgregado = 0;
+    this.ultimoAgregado = "...";
     this.pacientesEspera = [];
     this.ultimosAtendidos4 = [];
 
@@ -97,7 +97,7 @@ class PacienteControl {
   }
 
   reiniciarConteo() {
-    this.ultimoAgregado = 0;
+    this.ultimoAgregado = "...";
     this.pacientesEspera = [];
     this.ultimosAtendidos4 = [];
 
