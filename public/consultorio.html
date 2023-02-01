@@ -16,8 +16,6 @@
       <h1 id="lblConsultorio" class="paciente-actual-consultorio">Consultorio</h1>
     </u>
     <br />
-    <br />
-    <br />
 
     <div class="row justify-content-center">
       <div class="col text-center">
@@ -27,12 +25,13 @@
 
     <br />
     <br />
-    <br />
 
     <div class="row justify-content-center">
-      <div class="col-6 form-group text-center">
+      <div class="col-12 text-center">
         <h1><u>Nuevo Paciente</u></h1>
         <br />
+      </div>
+      <div class="col-md-6 form-group text-center">
         <form id="form" action="" class="was-validated">
           <input
             id="pacienteInput"
@@ -44,18 +43,21 @@
             required
           />
           <div class="invalid-feedback">Por favor ingrese el nombre del nuevo Paciente.</div>
+
           <br />
-          <a class="btn btn-danger btn-lg" href="index.html">Salir</a>
-          <button type="submit" class="btn btn-warning btn-lg">Atender Paciente</button>
+          <a class="btn btn-danger btn-lg m-1" href="index.html">Salir</a>
+          <button type="submit" class="btn btn-warning btn-lg m-1">Atender Paciente</button>
         </form>
+        <!-- <br />
+        <hr class="w-100 border border-info my-0" />
         <br />
-        <br />
-        <!-- <button id="atenderSiguiente" class="btn btn-warning btn-lg">
+        <button id="atenderSiguiente" class="btn btn-warning btn-lg m-1">
           Atender siguiente Paciente en Espera
         </button> -->
       </div>
     </div>
 
+    <div style="height: 46px"></div>
     <footer class="fixed-bottom row align-items-center bg-info py-1 px-5">
       <p class="small col-6 align-self-center text-left mb-0">
         <a

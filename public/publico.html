@@ -10,9 +10,9 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
-  <body class="container-fluid publico px-0" style="height: 100%">
-    <nav class="navbar navbar-expand navbar-light bg-light" style="height: 4%">
-      <a href="index.html">
+  <body class="container-fluid px-0" style="height: 100%">
+    <nav class="navbar navbar-expand navbar-light bg-light" style="height: 36px">
+      <a href="index.html" data-toggle="tooltip" title="Volver a Inicio">
         <img
           src="/img/logo-64x64.png"
           width="32"
@@ -22,7 +22,11 @@
         />
       </a>
       <!-- BOTON PARA ACTIVAR EL SONIDO... PORQUE SI A LA PAGINA SE INGRESA DESDE LA URL O RECARGA NO EJECUTA SONIDO.. -->
-      <div class="col align-self-center text-right">
+      <div
+        class="col align-self-center text-right"
+        data-toggle="tooltip"
+        title="Some tooltip text!"
+      >
         <input
           id="CheckSound"
           type="checkbox"
@@ -36,9 +40,12 @@
         >
       </div>
     </nav>
-    <div class="row align-items-center justify-content-center mx-0" style="height: 93%">
+    <div
+      class="row align-items-center justify-content-center mx-0"
+      style="height: 94%; background-color: #282828"
+    >
       <!-- ACTUAL -->
-      <div class="col-8 align-self-center text-center">
+      <div class="col-md-8 align-self-center text-center px-2" style="background-color: #282828">
         <u>
           <h1 id="lblConsultorio1" class="paciente-actual-consultorio text-break">Espere...</h1>
         </u>
@@ -46,23 +53,26 @@
       </div>
 
       <!-- SECUNDARIOS -->
-      <div class="col-4 align-self-center text-center paciente-secundario" style="height: 100%">
+      <div
+        class="col-md-4 align-self-center text-center paciente-secundario px-2"
+        style="height: 100%"
+      >
         <div class="row align-items-center justify-content-center mx-0" style="height: 100%">
-          <div class="mh-50 col-12 align-self-center text-center px-0">
+          <div class="mh-50 col-12 align-self-center text-center px-0 my-3">
             <u>
               <h2 id="lblConsultorio2" class="text-break">Espere...</h2>
             </u>
             <span id="lblPaciente2" class="text-break"></span>
           </div>
           <hr class="w-100 border border-info my-0" />
-          <div class="mh-50 col-12 align-self-center text-center px-0">
+          <div class="mh-50 col-12 align-self-center text-center px-0 my-3">
             <u>
               <h2 id="lblConsultorio3" class="text-break">Espere...</h2>
             </u>
             <span id="lblPaciente3" class="text-break"></span>
           </div>
           <hr class="w-100 border border-info my-0" />
-          <div class="mh-50 col-12 align-self-center text-center px-0">
+          <div class="mh-50 col-12 align-self-center text-center px-0 my-3">
             <u>
               <h2 id="lblConsultorio4" class="text-break">Espere...</h2>
             </u>

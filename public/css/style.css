@@ -12,29 +12,27 @@ table {
   text-align: center;
 }
 
-.publico {
-  background-color: #282828;
-  text-transform: capitalize;
-}
-
 .paciente-actual-nombre {
   font-size: 80px;
+  text-transform: capitalize;
 }
 
 .paciente-actual-consultorio {
   font-size: 120px;
+  text-transform: capitalize;
 }
 
 .paciente-secundario {
   background-color: #6951f0;
   font-size: 40px;
+  text-transform: capitalize;
 }
 
 /* Nuevo-Paciente */
 
 #lblUltimoPacienteAgregado {
-  text-transform: capitalize;
   font-size: 70px;
+  text-transform: capitalize;
 }
 
 .invalid-feedback {
