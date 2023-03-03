@@ -22,6 +22,31 @@ $ npm install
 $ npm start
 ```
 
+## Instalarlo como Servicio de Windows
+
+Necesitaras [Git](https://git-scm.com), [Node.js](https://nodejs.org/en/download/) (ya viene con [npm](http://npmjs.com)) y [node-windows](https://www.npmjs.com/package/node-windows) instalado global.
+command line:
+
+```bash
+# Clone this repository
+$ git clone https://github.com/PaZakwan/llamador-paciente
+
+# Go into the repository
+$ cd llamador-paciente
+
+# Install dependencies
+$ npm install
+
+# Install node-windows
+$ npm install -g node-windows
+
+# link node-windows
+$ npm link node-windows
+
+# Create Service
+$ node win_service.js
+```
+
 ### Hecho con
 
 - Nodejs
