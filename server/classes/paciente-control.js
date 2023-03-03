@@ -1,4 +1,5 @@
 const fs = require("fs");
+const path = require("path");
 
 class Paciente {
   constructor(nombre, consultorio) {
@@ -16,7 +17,7 @@ class PacienteControl {
 
     try {
       // si existe data la carga
-      let data = require("../data/data.json");
+      let data = require(path.resolve(__dirname, "../data/data.json"));
       // si la data es actual la carga
       if (data.hoy === this.hoy) {
         this.ultimoAgregado = data.ultimoAgregado;
@@ -115,7 +116,7 @@ class PacienteControl {
 
     let jsonDataString = JSON.stringify(jsonData);
 
-    fs.writeFileSync("./server/data/data.json", jsonDataString);
+    fs.writeFileSync(path.resolve(__dirname, "../data/data.json"), jsonDataString);
   }
 }
 
