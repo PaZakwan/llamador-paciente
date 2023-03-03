@@ -2,6 +2,8 @@
 
 Sistema para llamar personas en la sala de espera desde los consultorios.
 
+Ejemplo: https://llamador-paciente.onrender.com/
+
 ## How To Use
 
 To clone and run this application, you'll need [Git](https://git-scm.com) and [Node.js](https://nodejs.org/en/download/) (which comes with [npm](http://npmjs.com)) installed on your computer. From your command line:
@@ -22,11 +24,11 @@ $ npm start
 
 ### Hecho con
 
-* Nodejs
+- Nodejs
   - Express.
   - Socket.io.
-* HTML
-* Javascript
+- HTML
+- Javascript
   - jQuery.
-* CSS
+- CSS
   - Boostrap 4.
