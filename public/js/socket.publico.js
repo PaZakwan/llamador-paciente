@@ -45,3 +45,4 @@ const playSound = () => {
     });
   }
 };
+CheckSound.addEventListener("change", playSound);
