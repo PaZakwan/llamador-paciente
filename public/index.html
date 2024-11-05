@@ -12,12 +12,12 @@
 
   <body class="container-fluid">
     <br />
-    <h1 class="display-2 font-weight-bold">LLamador de Pacientes</h1>
+    <h1 class="display-2 fw-bold">LLamador de Pacientes</h1>
     <br />
 
     <div class="row justify-content-center">
       <div class="col text-center">
-        <a class="btn btn-info btn-lg m-1" href="publico.html">Pantalla Publica</a>
+        <a class="btn btn-info btn-lg m-1 text-light" href="publico.html">Pantalla Publica</a>
         <!-- <a class="btn btn-info btn-lg m-1" href="agregar-paciente.html"
           >Mostrador - Agregar Pacientes</a
         > -->
@@ -35,10 +35,11 @@
       <div class="col-md-6 text-center">
         <form action="consultorio.html">
           <input
-            name="consultorio"
-            type="number"
             class="form-control"
-            placeholder="N° de Consultorio"
+            autocomplete="off"
+            type="text"
+            name="consultorio"
+            placeholder="Consultorio"
             autofocus
             required
           />
@@ -51,11 +52,11 @@
 
     <div style="height: 46px"></div>
     <footer class="fixed-bottom row align-items-center bg-info py-1 px-5">
-      <p class="small col-6 align-self-center text-left mb-0">
+      <p class="small col-6 align-self-center text-start mb-0">
         <a
           href="mailto:jpazvillar88@hotmail.com?Subject=Sistema%20de%20Salud%20Moreno"
           style="text-decoration: inherit; color: inherit"
-          onMouseOver="this.style.color='var(--indigo)'"
+          onMouseOver="this.style.color='var(--bs-indigo)'"
           onMouseOut="this.style.color='inherit'"
         >
           Juan Paz</a
@@ -65,23 +66,23 @@
           target="_blank"
           rel="AGPL License"
           style="text-decoration: inherit; color: inherit"
-          onMouseOver="this.style.color='var(--indigo)'"
+          onMouseOver="this.style.color='var(--bs-indigo)'"
           onMouseOut="this.style.color='inherit'"
-          class="text-no-wrap"
+          class="text-wrap"
         >
           &nbsp;<span style="display: inline-block; transform: rotateY(180deg)">&copy;</span>
           AGPL</a
         >
       </p>
-      <p class="small col-6 align-self-center text-right mb-0">
-        <strong class="text-no-wrap">Secretaria de Salud</strong>
+      <p class="small col-6 align-self-center text-end mb-0">
+        <strong class="text-wrap">Secretaria de Salud</strong>
         ~
         <a
           href="https://moreno.gob.ar"
           target="_blank"
           rel="Moreno"
           style="text-decoration: inherit; color: inherit"
-          onMouseOver="this.style.color='var(--indigo)'"
+          onMouseOver="this.style.color='var(--bs-indigo)'"
           onMouseOut="this.style.color='inherit'"
         >
           <strong>Moreno</strong>
@@ -89,7 +90,6 @@
       </p>
     </footer>
 
-    <script src="js/libs/jquery.slim.min.js"></script>
     <script src="js/libs/bootstrap.bundle.min.js"></script>
   </body>
 </html>

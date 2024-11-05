@@ -1,7 +1,7 @@
 // Comando para establecer la conexión
-var socket = io();
+const socket = io();
 
-var label = $("#lblUltimoPacienteAgregado");
+let ultimoAgregadoLabel = document.getElementById("lblUltimoPacienteAgregado");
 
 // socket.on("connect", () => {
 //   console.log("Conectado al servidor");
@@ -14,17 +14,17 @@ var label = $("#lblUltimoPacienteAgregado");
 // on 'estadoActual'
 socket.on("estadoActual", (resp) => {
   // console.log(resp);
-  label.text("Paciente: " + resp.ultimoAgregado);
+  ultimoAgregadoLabel.innerText = `Paciente: ${resp?.ultimoAgregado ?? "...."}`;
 });
 
-var paciente = document.getElementById("pacienteInput");
+let pacienteInput = document.getElementById("pacienteInput");
 
 document.getElementById("form").addEventListener("submit", (e) => {
   e.preventDefault();
-  if (paciente.value) {
-    socket.emit("agregarPaciente", {nombre: paciente.value}, (pacienteAgregado) => {
-      paciente.value = "";
-      label.text("Paciente: " + pacienteAgregado);
+  if (pacienteInput.value) {
+    socket.emit("agregarPaciente", {nombre: pacienteInput.value}, (pacienteAgregado) => {
+      pacienteInput.value = "";
+      ultimoAgregadoLabel.innerText = `Paciente: ${pacienteAgregado ?? "...."}`;
     });
   }
 });

@@ -29,7 +29,7 @@ table {
 }
 
 /* Nuevo-Paciente */
-
+#lblPacienteAtendiendo,
 #lblUltimoPacienteAgregado {
   font-size: 70px;
   text-transform: capitalize;
@@ -38,4 +38,9 @@ table {
 .invalid-feedback {
   color: #ffb74d;
   /* background-color: #bf360c; */
+}
+
+.bg-info,
+.btn-info {
+  background-color: #17a2b8 !important;
 }

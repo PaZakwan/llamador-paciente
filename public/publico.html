@@ -10,11 +10,11 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
-  <body class="container-fluid px-0" style="height: 100%">
-    <nav class="navbar navbar-expand navbar-light bg-light" style="height: 36px">
+  <body class="container-fluid px-0">
+    <nav class="sticky-top navbar navbar-expand navbar-light bg-light px-3" style="height: 36px">
       <a href="index.html" data-toggle="tooltip" title="Volver a Inicio">
         <img
-          src="/img/logo-64x64.png"
+          src="/img/logo-color-64x64.png"
           width="32"
           height="32"
           class="d-inline-block align-top"
@@ -23,19 +23,20 @@
       </a>
       <!-- BOTON PARA ACTIVAR EL SONIDO... PORQUE SI A LA PAGINA SE INGRESA DESDE LA URL O RECARGA NO EJECUTA SONIDO.. -->
       <div
-        class="col align-self-center text-right"
+        class="col align-items-center text-end form-check form-switch form-check-reverse"
         data-toggle="tooltip"
-        title="Some tooltip text!"
+        title="Activar Sonido!"
       >
         <input
           id="CheckSound"
           type="checkbox"
           class="form-check-input"
-          checked="checked"
+          value=""
+          checked
           onchange="playSound()"
           style="cursor: pointer"
         />
-        <label for="CheckSound" class="badge badge-info form-check-label" style="cursor: pointer"
+        <label for="CheckSound" class="badge bg-info form-check-label" style="cursor: pointer"
           >Activar Sonido</label
         >
       </div>
@@ -45,7 +46,7 @@
       style="height: 94%; background-color: #282828"
     >
       <!-- ACTUAL -->
-      <div class="col-md-8 align-self-center text-center px-2" style="background-color: #282828">
+      <div class="col-12 col-md-8 align-self-center text-center px-2">
         <u>
           <h1 id="lblConsultorio1" class="paciente-actual-consultorio text-break">Espere...</h1>
         </u>
@@ -54,25 +55,25 @@
 
       <!-- SECUNDARIOS -->
       <div
-        class="col-md-4 align-self-center text-center paciente-secundario px-2"
+        class="col-12 col-md-4 align-self-center text-center paciente-secundario px-2"
         style="height: 100%"
       >
         <div class="row align-items-center justify-content-center mx-0" style="height: 100%">
-          <div class="mh-50 col-12 align-self-center text-center px-0 my-3">
+          <div class="col-12 align-self-end text-center px-0 my-3">
             <u>
               <h2 id="lblConsultorio2" class="text-break">Espere...</h2>
             </u>
             <span id="lblPaciente2" class="text-break"></span>
           </div>
           <hr class="w-100 border border-info my-0" />
-          <div class="mh-50 col-12 align-self-center text-center px-0 my-3">
+          <div class="col-12 align-self-center text-center px-0 my-3">
             <u>
               <h2 id="lblConsultorio3" class="text-break">Espere...</h2>
             </u>
             <span id="lblPaciente3" class="text-break"></span>
           </div>
           <hr class="w-100 border border-info my-0" />
-          <div class="mh-50 col-12 align-self-center text-center px-0 my-3">
+          <div class="col-12 align-self-start text-center px-0 my-3">
             <u>
               <h2 id="lblConsultorio4" class="text-break">Espere...</h2>
             </u>
@@ -83,11 +84,11 @@
     </div>
 
     <footer class="fixed-bottom row align-items-center bg-info py-1 px-5">
-      <p class="small col-6 align-self-center text-left mb-0">
+      <p class="small col-6 align-self-center text-start mb-0">
         <a
           href="mailto:jpazvillar88@hotmail.com?Subject=Sistema%20de%20Salud%20Moreno"
           style="text-decoration: inherit; color: inherit"
-          onMouseOver="this.style.color='var(--indigo)'"
+          onMouseOver="this.style.color='var(--bs-indigo)'"
           onMouseOut="this.style.color='inherit'"
         >
           Juan Paz</a
@@ -97,23 +98,23 @@
           target="_blank"
           rel="AGPL License"
           style="text-decoration: inherit; color: inherit"
-          onMouseOver="this.style.color='var(--indigo)'"
+          onMouseOver="this.style.color='var(--bs-indigo)'"
           onMouseOut="this.style.color='inherit'"
-          class="text-no-wrap"
+          class="text-wrap"
         >
           &nbsp;<span style="display: inline-block; transform: rotateY(180deg)">&copy;</span>
           AGPL</a
         >
       </p>
-      <p class="small col-6 align-self-center text-right mb-0">
-        <strong class="text-no-wrap">Secretaria de Salud</strong>
+      <p class="small col-6 align-self-center text-end mb-0">
+        <strong class="text-wrap">Secretaria de Salud</strong>
         ~
         <a
           href="https://moreno.gob.ar"
           target="_blank"
           rel="Moreno"
           style="text-decoration: inherit; color: inherit"
-          onMouseOver="this.style.color='var(--indigo)'"
+          onMouseOver="this.style.color='var(--bs-indigo)'"
           onMouseOut="this.style.color='inherit'"
         >
           <strong>Moreno</strong>
@@ -121,7 +122,6 @@
       </p>
     </footer>
 
-    <script src="js/libs/jquery.slim.min.js"></script>
     <script src="js/libs/bootstrap.bundle.min.js"></script>
 
     <script src="socket.io/socket.io.js"></script>

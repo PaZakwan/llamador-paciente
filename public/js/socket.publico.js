@@ -1,46 +1,46 @@
 // Comando para establecer la conexión
 const socket = io();
-
-var lblPaciente1 = $("#lblPaciente1");
-var lblPaciente2 = $("#lblPaciente2");
-var lblPaciente3 = $("#lblPaciente3");
-var lblPaciente4 = $("#lblPaciente4");
-
-var lblConsultorio1 = $("#lblConsultorio1");
-var lblConsultorio2 = $("#lblConsultorio2");
-var lblConsultorio3 = $("#lblConsultorio3");
-var lblConsultorio4 = $("#lblConsultorio4");
-
-var lblPacientes = [lblPaciente1, lblPaciente2, lblPaciente3, lblPaciente4];
-var lblConsultorios = [lblConsultorio1, lblConsultorio2, lblConsultorio3, lblConsultorio4];
-
 const audio = new Audio("audio/new-paciente.mp3");
-var CheckSound = $("#CheckSound");
+
+let lblPacientes = [
+  document.getElementById("lblPaciente1"),
+  document.getElementById("lblPaciente2"),
+  document.getElementById("lblPaciente3"),
+  document.getElementById("lblPaciente4"),
+];
+let lblConsultorios = [
+  document.getElementById("lblConsultorio1"),
+  document.getElementById("lblConsultorio2"),
+  document.getElementById("lblConsultorio3"),
+  document.getElementById("lblConsultorio4"),
+];
+let CheckSound = document.getElementById("CheckSound");
+
 socket.on("estadoActual", (data) => {
   // console.log(data);
   playSound();
-  actualizaHTML(data.ultimosAtendidos4);
+  actualizaHTML(data?.ultimosAtendidos4);
 });
 
 socket.on("ultimosAtendidos4", (data) => {
   // console.log(data);
   playSound();
-  actualizaHTML(data.ultimosAtendidos4);
+  actualizaHTML(data?.ultimosAtendidos4);
 });
 
-function actualizaHTML(ultimosAtendidos4) {
-  for (var i = 0; i <= ultimosAtendidos4.length - 1; i++) {
-    lblConsultorios[i].text(`Consultorio: ${ultimosAtendidos4[i].consultorio}`);
-    lblPacientes[i].text(`Paciente: ${ultimosAtendidos4[i].nombre}`);
+const actualizaHTML = (ultimosAtendidos4) => {
+  for (let i = 0; i <= ultimosAtendidos4?.length - 1; i++) {
+    lblConsultorios[i].innerText = `Consultorio: ${ultimosAtendidos4[i].consultorio}`;
+    lblPacientes[i].innerText = `Paciente: ${ultimosAtendidos4[i].nombre}`;
   }
-}
+};
 
-function playSound() {
-  if (CheckSound.is(":checked")) {
+const playSound = () => {
+  if (CheckSound.checked) {
     audio.play().catch(function (error) {
-      if (CheckSound.is(":checked")) {
-        CheckSound.removeAttr("checked");
+      if (CheckSound.checked) {
+        CheckSound.checked = false;
       }
     });
   }
-}
+};
