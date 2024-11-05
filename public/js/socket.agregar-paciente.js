@@ -1,4 +1,5 @@
 // Comando para establecer la conexión
+import {io} from "/socket.io/socket.io.esm.min.js";
 const socket = io();
 
 let ultimoAgregadoLabel = document.getElementById("lblUltimoPacienteAgregado");

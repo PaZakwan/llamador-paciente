@@ -1,4 +1,5 @@
 // Comando para establecer la conexión
+import {io} from "/socket.io/socket.io.esm.min.js";
 const socket = io();
 const audio = new Audio("audio/new-paciente.mp3");
 

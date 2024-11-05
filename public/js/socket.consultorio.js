@@ -1,4 +1,5 @@
 // Comando para establecer la conexión
+import {io} from "/socket.io/socket.io.esm.min.js";
 const socket = io();
 
 let searchParams = new URLSearchParams(window.location.search);
@@ -8,7 +9,7 @@ if (!searchParams.has("consultorio")) {
   throw new Error("El consultorio es necesario");
 }
 
-let consultorio = searchParams.get("consultorio");
+let consultorio = searchParams.get("consultorio")?.trim().toLowerCase();
 document.getElementById("lblConsultorio").innerText = `Consultorio: ${consultorio ?? "..."}`;
 
 let atendiendoLabel = document.getElementById("lblPacienteAtendiendo");
