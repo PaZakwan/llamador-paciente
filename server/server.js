@@ -1,19 +1,20 @@
-const {networkInterfaces} = require("os");
-const express = require("express");
-const {Server} = require("socket.io");
-const {createServer} = require("http");
+import {networkInterfaces} from "os";
+import express from "express";
+import {Server} from "socket.io";
+import {createServer} from "http";
 
-const path = require("path");
+import {resolve} from "path";
+const __dirname = import.meta.dirname;
 
 const app = express();
 const httpServer = createServer(app);
 
 const port = process.env.PORT ?? 80;
 
-app.use(express.static(path.resolve(__dirname, "../public")));
+app.use(express.static(resolve(__dirname, "../public")));
 
 // IO = esta es la comunicacion del backend
-module.exports.io = new Server(httpServer, {
+export const io = new Server(httpServer, {
   /* options */
   connectionStateRecovery: {
     // the backup duration of the sessions and the packets
@@ -21,7 +22,7 @@ module.exports.io = new Server(httpServer, {
   },
   // serveClient: false, //dont send "/socket.io/socket.io.js" to front in GET
 });
-require("./sockets/socket");
+import("./sockets/socket.js");
 
 httpServer.listen(port, (err) => {
   if (err) throw new Error(err);

@@ -1,5 +1,6 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import {resolve} from "path";
+const __dirname = import.meta.dirname;
 
 class Paciente {
   constructor(nombre, consultorio) {
@@ -13,45 +14,40 @@ class Paciente {
 // AL CREAR DATA tambien conectar con MongoDB y guardar data,
 // Al LEER DATA comparar fecha del json y el MongoDB para saber cual es la mas actual.
 
-class PacienteControl {
+export class PacienteControl {
   constructor() {
-    this.hoy = new Date().getDate();
+    this.hoy = "";
     this.ultimoAgregado = "...";
     this.pacientesEspera = [];
     this.ultimosAtendidos4 = [];
 
-    try {
-      // si existe data la carga
-      let data = require(path.resolve(__dirname, "../data/data.json"));
-      // si la data es actual la carga
-      if (data.hoy === this.hoy) {
-        this.ultimoAgregado = data.ultimoAgregado;
-        this.pacientesEspera = data.pacientesEspera;
-        this.ultimosAtendidos4 = data.ultimosAtendidos4;
-      } else {
-        this.reiniciarConteo();
-      }
-    } catch (error) {
-      this.reiniciarConteo();
-    }
+    this.cargarData();
   }
 
   getUltimoAgregadoPaciente() {
+    this.cargarData();
     return this.ultimoAgregado;
   }
 
+  getPacientesEspera() {
+    this.cargarData();
+    return this.pacientesEspera;
+  }
+
   getUltimosAtendidos4() {
+    this.cargarData();
     return this.ultimosAtendidos4;
   }
 
   agregar(nombre) {
     try {
+      this.cargarData();
       this.ultimoAgregado = nombre;
 
       let paciente = new Paciente(this.ultimoAgregado, null);
       this.pacientesEspera.push(paciente);
 
-      this.grabarArchivo();
+      this.grabarData();
 
       return this.ultimoAgregado;
     } catch (error) {
@@ -61,6 +57,7 @@ class PacienteControl {
 
   atenderSiguientePaciente(consultorio) {
     try {
+      this.cargarData();
       if (this.pacientesEspera.length === 0) {
         return "No hay más Pacientes en Espera";
       }
@@ -76,7 +73,7 @@ class PacienteControl {
         this.ultimosAtendidos4.splice(-1, 1); // borra el último
       }
 
-      this.grabarArchivo();
+      this.grabarData();
 
       return atenderSiguientePaciente;
     } catch (error) {
@@ -84,9 +81,10 @@ class PacienteControl {
     }
   }
 
-  atenderPaciente(data) {
+  atenderPaciente(paciente) {
     try {
-      let atenderPaciente = new Paciente(data.nombre, data.consultorio);
+      this.cargarData();
+      let atenderPaciente = new Paciente(paciente.nombre, paciente.consultorio);
 
       this.ultimosAtendidos4.unshift(atenderPaciente);
 
@@ -94,7 +92,7 @@ class PacienteControl {
         this.ultimosAtendidos4.splice(-1, 1); // borra el último
       }
 
-      this.grabarArchivo();
+      this.grabarData();
 
       return atenderPaciente;
     } catch (error) {
@@ -102,27 +100,80 @@ class PacienteControl {
     }
   }
 
-  reiniciarConteo() {
-    this.ultimoAgregado = "...";
-    this.pacientesEspera = [];
-    this.ultimosAtendidos4 = [];
-
-    console.log("Se ha inicializado el sistema");
-    this.grabarArchivo();
+  cargarData() {
+    try {
+      if (!this.hoy) {
+        // HOY DATA NO EXISTE
+        fs.readFile(resolve(__dirname, "../data/data.json"), "utf8", (err, data) => {
+          if (err) {
+            if (err.code === "ENOENT") {
+              // console.error("File not found:", err.path);
+            } else {
+              console.log("Error - PacienteControl-cargarData readFile: ", err);
+            }
+            this.reiniciarData();
+            return;
+          }
+          data = JSON.parse(data);
+          // si existe data y es actual se actualiza
+          if (data.hoy?.slice(0, 10) === new Date().toISOString().slice(0, 10)) {
+            this.hoy = data.hoy;
+            this.ultimoAgregado = data.ultimoAgregado;
+            this.pacientesEspera = data.pacientesEspera;
+            this.ultimosAtendidos4 = data.ultimosAtendidos4;
+            console.log(`Se ha cargado la data -> ${this.hoy}`);
+          } else {
+            this.reiniciarData();
+          }
+        });
+      }
+      // HOY DATA existe y es diferente de HOY AHORA :V
+      else if (this.hoy?.slice(0, 10) !== new Date().toISOString().slice(0, 10)) {
+        this.reiniciarData();
+      }
+      // HOY DATA existe y es HOY AHORA :V
+      // NO EJECUTA NADA
+    } catch (error) {
+      console.log("Error - PacienteControl-cargarData: ", error);
+      this.reiniciarData();
+    }
   }
 
-  grabarArchivo() {
-    let jsonData = {
-      ultimoAgregado: this.ultimoAgregado,
-      hoy: this.hoy,
-      pacientesEspera: this.pacientesEspera,
-      ultimosAtendidos4: this.ultimosAtendidos4,
-    };
+  reiniciarData() {
+    try {
+      this.ultimoAgregado = "...";
+      this.pacientesEspera = [];
+      this.ultimosAtendidos4 = [];
 
-    let jsonDataString = JSON.stringify(jsonData);
+      console.log(`Se ha reiniciado la data -> ${new Date().toISOString()}`);
+      this.grabarData();
+    } catch (error) {
+      console.log("Error - PacienteControl-reiniciarData: ", error);
+    }
+  }
 
-    fs.writeFileSync(path.resolve(__dirname, "../data/data.json"), jsonDataString);
+  grabarData() {
+    try {
+      let jsonDataString = JSON.stringify({
+        hoy: new Date().toISOString(),
+        ultimoAgregado: this.ultimoAgregado,
+        pacientesEspera: this.pacientesEspera,
+        ultimosAtendidos4: this.ultimosAtendidos4,
+      });
+
+      fs.writeFile(
+        resolve(__dirname, "../data/data.json"),
+        jsonDataString,
+        {encoding: "utf8"},
+        (err) => {
+          if (err) {
+            console.log("Error - PacienteControl-grabarData writeFile: ", err);
+            return;
+          }
+        }
+      );
+    } catch (error) {
+      console.log("Error - PacienteControl-grabarData: ", error);
+    }
   }
 }
-
-module.exports.PacienteControl = PacienteControl;

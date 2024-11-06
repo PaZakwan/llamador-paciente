@@ -1,5 +1,5 @@
-const {io} = require("../server");
-const {PacienteControl} = require("../classes/paciente-control");
+import {io} from "../server.js";
+import {PacienteControl} from "../classes/paciente-control.js";
 
 const pacienteControl = new PacienteControl();
 
@@ -8,9 +8,10 @@ const pacienteControl = new PacienteControl();
 // socket.to("some room").emit("some event");
 
 io.of("/llamador").on("connection", (client) => {
-  client.request = null; //save memory
-  // console.log("client handshake WO LO LO:", client.handshake);
-  // console.log("client id WO LO LO:", client.id);
+  // console.log("#### client ####", client.handshake.address);
+  // console.log("client handshake.address:", client.handshake.address);
+  // console.log("client handshake.headers.referer:", client.handshake.headers.referer);
+  // console.log("client handshake:", client.handshake);
 
   client.emit("estadoActual", {
     ultimoAgregado: pacienteControl.getUltimoAgregadoPaciente(),

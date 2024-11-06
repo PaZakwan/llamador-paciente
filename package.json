@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Sistema para llamar personas en la sala de espera desde los consultorios",
   "main": "server/server.js",
+  "type": "module",
   "scripts": {
     "start": "node server/server.js",
     "dev": "nodemon server/server.js",
