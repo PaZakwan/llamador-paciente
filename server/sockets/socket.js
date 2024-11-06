@@ -8,6 +8,10 @@ const pacienteControl = new PacienteControl();
 // socket.to("some room").emit("some event");
 
 io.of("/llamador").on("connection", (client) => {
+  client.request = null; //save memory
+  // console.log("client handshake WO LO LO:", client.handshake);
+  // console.log("client id WO LO LO:", client.id);
+
   client.emit("estadoActual", {
     ultimoAgregado: pacienteControl.getUltimoAgregadoPaciente(),
     ultimosAtendidos4: pacienteControl.getUltimosAtendidos4(),

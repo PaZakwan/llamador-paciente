@@ -8,6 +8,11 @@ class Paciente {
   }
 }
 
+// Al CREAR/LEER DATA comparar fecha y restear data si es otro dia.
+// https://www.mongodb.com/resources/languages/express-mongodb-rest-api-tutorial
+// AL CREAR DATA tambien conectar con MongoDB y guardar data,
+// Al LEER DATA comparar fecha del json y el MongoDB para saber cual es la mas actual.
+
 class PacienteControl {
   constructor() {
     this.hoy = new Date().getDate();
