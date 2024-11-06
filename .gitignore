@@ -12,7 +12,6 @@ server/data/*
 server/daemon/*
 
 # Ignora archivos
-package-lock.json
 
 # omitir ignoracion xD
 !server/data/.gitkeep

@@ -20,12 +20,12 @@
   },
   "author": "Paz Juan",
   "license": "AGPL-3.0-only",
-  "engines": {
-    "node": "20.x",
-    "npm": "10.x"
-  },
   "dependencies": {
     "express": "^4.21.1",
     "socket.io": "^4.7.5"
+  },
+  "engines": {
+    "node": "20.x",
+    "npm": "10.x"
   }
 }
