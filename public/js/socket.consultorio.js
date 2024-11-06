@@ -1,6 +1,6 @@
 // Comando para establecer la conexión
 import {io} from "/socket.io/socket.io.esm.min.js";
-const socket = io();
+const socket = io("/llamador");
 
 let searchParams = new URLSearchParams(window.location.search);
 

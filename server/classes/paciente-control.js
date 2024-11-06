@@ -50,7 +50,7 @@ class PacienteControl {
 
       return this.ultimoAgregado;
     } catch (error) {
-      console.log("PacienteControl-agregar: ", error);
+      console.log("Error - PacienteControl-agregar: ", error);
     }
   }
 
@@ -75,7 +75,7 @@ class PacienteControl {
 
       return atenderSiguientePaciente;
     } catch (error) {
-      console.log("PacienteControl-atenderSiguientePaciente: ", error);
+      console.log("Error - PacienteControl-atenderSiguientePaciente: ", error);
     }
   }
 
@@ -93,7 +93,7 @@ class PacienteControl {
 
       return atenderPaciente;
     } catch (error) {
-      console.log("PacienteControl-atenderPaciente: ", error);
+      console.log("Error - PacienteControl-atenderPaciente: ", error);
     }
   }
 
@@ -120,6 +120,4 @@ class PacienteControl {
   }
 }
 
-module.exports = {
-  PacienteControl,
-};
+module.exports.PacienteControl = PacienteControl;
