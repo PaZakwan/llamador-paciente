@@ -120,7 +120,7 @@ export class PacienteControl {
             this.ultimoAgregado = data.ultimoAgregado;
             this.pacientesEspera = data.pacientesEspera;
             this.ultimosAtendidos4 = data.ultimosAtendidos4;
-            console.log(`Se ha cargado la data -> ${this.hoy}`);
+            console.log(`${new Date().toISOString()} <=> Se han cargado los datos locales.`);
           } else {
             this.reiniciarData();
           }
@@ -144,7 +144,7 @@ export class PacienteControl {
       this.pacientesEspera = [];
       this.ultimosAtendidos4 = [];
 
-      console.log(`Se ha reiniciado la data -> ${new Date().toISOString()}`);
+      console.log(`${new Date().toISOString()} <=> Se han reiniciado los datos.`);
       this.grabarData();
     } catch (error) {
       console.log("Error - PacienteControl-reiniciarData: ", error);
