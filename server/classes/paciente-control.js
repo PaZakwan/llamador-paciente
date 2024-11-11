@@ -1,6 +1,5 @@
 import fs from "fs";
 import {resolve} from "path";
-const __dirname = import.meta.dirname;
 
 class Paciente {
   constructor(nombre, consultorio) {
@@ -104,7 +103,7 @@ export class PacienteControl {
     try {
       if (!this.hoy) {
         // HOY DATA NO EXISTE
-        fs.readFile(resolve(__dirname, "../data/data.json"), "utf8", (err, data) => {
+        fs.readFile(resolve(process.env.MAIN_FOLDER, "./data/data.json"), "utf8", (err, data) => {
           if (err) {
             if (err.code === "ENOENT") {
               // console.error("File not found:", err.path);
@@ -162,7 +161,7 @@ export class PacienteControl {
       });
 
       fs.writeFile(
-        resolve(__dirname, "../data/data.json"),
+        resolve(process.env.MAIN_FOLDER, "./data/data.json"),
         jsonDataString,
         {encoding: "utf8"},
         (err) => {

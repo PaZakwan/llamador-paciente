@@ -54,6 +54,5 @@ $ node win_service.js
   - Socket.io.
 - HTML
 - Javascript
-  - jQuery.
 - CSS
-  - Boostrap 4.
+  - Boostrap 5.

@@ -1,5 +1,5 @@
-import {io} from "../server.js";
-import {PacienteControl} from "../classes/paciente-control.js";
+import {io} from "#MAIN_FOLDER/server.js";
+import {PacienteControl} from "#MAIN_FOLDER/classes/paciente-control.js";
 
 const pacienteControl = new PacienteControl();
 
