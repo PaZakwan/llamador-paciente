@@ -1,7 +1,7 @@
 import {io} from "#MAIN_FOLDER/server.js";
-import {PacienteControl} from "#MAIN_FOLDER/classes/paciente-control.js";
+import {LlamadorControl} from "#MAIN_FOLDER/classes/llamador-control.js";
 
-const pacienteControl = new PacienteControl();
+const llamadorControl = new LlamadorControl();
 
 // create Rooms para distintas areas..
 // socket.join("some room");
@@ -9,97 +9,108 @@ const pacienteControl = new PacienteControl();
 
 io.of("/llamador").on("connection", (client) => {
   // console.log("#### client ####", client.handshake.address);
-  // console.log("client handshake.address:", client.handshake.address);
-  // console.log("client handshake.headers.referer:", client.handshake.headers.referer);
+  console.log("client handshake.address:", client.handshake.address);
+  console.log("client handshake.headers.referer:", client.handshake.headers.referer);
   // console.log("client handshake:", client.handshake);
 
+  // client.join(client.handshake.address);
+
   client.emit("estadoActual", {
-    ultimoAgregado: pacienteControl.getUltimoAgregadoPaciente(),
-    ultimosAtendidos4: pacienteControl.getUltimosAtendidos4(),
+    // client.to(client.handshake.address).emit("estadoActual", {
+    ultimosLlamados: llamadorControl.getUltimosLlamados(),
+    personasEsperan: llamadorControl.getPersonasEsperan(),
   });
 
-  client.on("atenderPaciente", (data, callback) => {
+  client.on("llamarPersona", (data, callback) => {
     try {
-      if (!data.consultorio) {
+      if (!data.box) {
         return callback({
           err: true,
-          mensaje: "El Consultorio es necesario",
+          mensaje: "El Consultorio es necesario.",
         });
       }
 
       if (!data.nombre) {
         return callback({
           err: true,
-          mensaje: "El Nombre del Paciente es necesario",
+          mensaje: "El Nombre de la Persona es necesario.",
         });
       }
 
-      let atenderPaciente = pacienteControl.atenderPaciente({
+      let personaLlamada = llamadorControl.llamarPersona({
         nombre: data.nombre,
-        consultorio: data.consultorio,
+        box: data.box,
+      });
+      // console.log("personaLlamada: ", personaLlamada);
+
+      // actualizar / notificar cambios en ultimosLlamados
+      client.broadcast.emit("ultimosLlamados", {
+        // client.broadcast.to(client.handshake.address).emit("ultimosLlamados", {
+        ultimosLlamados: llamadorControl.getUltimosLlamados(),
       });
 
-      // console.log("atenderPaciente: ", atenderPaciente);
-      // actualizar/ notificar cambios en los ULTIMOS 4 ATENDIDOS
-      client.broadcast.emit("ultimosAtendidos4", {
-        ultimosAtendidos4: pacienteControl.getUltimosAtendidos4(),
-      });
-
-      return callback(atenderPaciente);
+      return callback(personaLlamada);
     } catch (error) {
-      console.log("Error - atenderPaciente: ", error);
+      console.log("Error - llamarPersona: ", error);
       return callback({
         err: true,
-        mensaje: `Error - atenderPaciente: ${error}`,
+        mensaje: `Error - llamarPersona: ${error}`,
       });
     }
   });
 
-  client.on("agregarPaciente", (data, callback) => {
+  client.on("addPersonaEspera", (data, callback) => {
     try {
       if (!data.nombre) {
         return callback({
           err: true,
-          mensaje: "El nombre es necesario",
+          mensaje: "El Nombre de la Persona es necesario.",
         });
       }
 
-      let agregado = pacienteControl.agregar(data.nombre);
+      let agregado = llamadorControl.addPersonaEspera(data.nombre);
+      // console.log("agregado: ", agregado);
+
+      // actualizar / notificar cambios en personasEsperan
+      client.broadcast.emit("personasEsperan", {
+        // client.broadcast.to(client.handshake.address).emit("personasEsperan", {
+        personasEsperan: llamadorControl.getPersonasEsperan(),
+      });
 
       return callback(agregado);
-      // console.log("agregarPaciente: ", agregado);
     } catch (error) {
-      console.log("Error - agregarPaciente: ", error);
+      console.log("Error - addPersonaEspera: ", error);
       return callback({
         err: true,
-        mensaje: `Error - agregarPaciente: ${error}`,
+        mensaje: `Error - addPersonaEspera: ${error}`,
       });
     }
   });
 
-  client.on("atenderSiguientePaciente", (data, callback) => {
+  client.on("llamarSiguientePersona", (data, callback) => {
     try {
-      if (!data.consultorio) {
+      if (!data.box) {
         return callback({
           err: true,
-          mensaje: "El Consultorio es necesario",
+          mensaje: "El Consultorio es necesario.",
         });
       }
 
-      let atenderSiguientePaciente = pacienteControl.atenderSiguientePaciente(data.consultorio);
+      let siguientePersona = llamadorControl.llamarSiguientePersona(data.box);
+      // console.log("siguientePersona: ", siguientePersona);
 
-      // console.log("atenderSiguientePaciente: ", atenderSiguientePaciente);
-      // actualizar/ notificar cambios en los ULTIMOS 4 ATENDIDOS
-      client.broadcast.emit("ultimosAtendidos4", {
-        ultimosAtendidos4: pacienteControl.getUltimosAtendidos4(),
+      // actualizar / notificar cambios en ultimosLlamados
+      client.broadcast.emit("ultimosLlamados", {
+        // client.broadcast.to(client.handshake.address).emit("ultimosLlamados", {
+        ultimosLlamados: llamadorControl.getUltimosLlamados(),
       });
 
-      return callback(atenderSiguientePaciente);
+      return callback(siguientePersona);
     } catch (error) {
-      console.log("Error - atenderSiguientePaciente: ", error);
+      console.log("Error - llamarSiguientePersona: ", error);
       return callback({
         err: true,
-        mensaje: `Error - atenderSiguientePaciente: ${error}`,
+        mensaje: `Error - llamarSiguientePersona: ${error}`,
       });
     }
   });

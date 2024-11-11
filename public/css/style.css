@@ -12,25 +12,25 @@ table {
   text-align: center;
 }
 
-.paciente-actual-nombre {
-  font-size: 80px;
+.persona-llamada-nombre {
+  font-size: 75px;
   text-transform: capitalize;
 }
 
-.paciente-actual-consultorio {
-  font-size: 120px;
+.persona-llamada-box {
+  font-size: 100px;
   text-transform: capitalize;
 }
 
-.paciente-secundario {
+.personas-llamadas {
   background-color: #6951f0;
   font-size: 40px;
   text-transform: capitalize;
 }
 
 /* Nuevo-Paciente */
-#lblPacienteAtendiendo,
-#lblUltimoPacienteAgregado {
+#lblPersonaLlamada,
+#lblUltimaPersonaAgregada {
   font-size: 70px;
   text-transform: capitalize;
 }

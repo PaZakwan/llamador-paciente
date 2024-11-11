@@ -2,7 +2,7 @@
 import {io} from "/socket.io/socket.io.esm.min.js";
 const socket = io("/llamador");
 
-let ultimoAgregadoLabel = document.getElementById("lblUltimoPacienteAgregado");
+let ultimoAgregadoLabel = document.getElementById("lblUltimaPersonaAgregada");
 
 // socket.on("connect", () => {
 //   console.log("Conectado al servidor");
@@ -15,17 +15,17 @@ let ultimoAgregadoLabel = document.getElementById("lblUltimoPacienteAgregado");
 // on 'estadoActual'
 socket.on("estadoActual", (resp) => {
   // console.log(resp);
-  ultimoAgregadoLabel.innerText = `Paciente: ${resp?.ultimoAgregado ?? "...."}`;
+  ultimoAgregadoLabel.innerText = `Paciente: ${resp?.personasEsperan ?? "...."}`;
 });
 
-let pacienteInput = document.getElementById("pacienteInput");
+let personaInput = document.getElementById("personaInput");
 
 document.getElementById("form").addEventListener("submit", (e) => {
   e.preventDefault();
-  if (pacienteInput.value) {
-    socket.emit("agregarPaciente", {nombre: pacienteInput.value}, (pacienteAgregado) => {
-      pacienteInput.value = "";
-      ultimoAgregadoLabel.innerText = `Paciente: ${pacienteAgregado ?? "...."}`;
+  if (personaInput.value) {
+    socket.emit("addPersonaEspera", {nombre: personaInput.value}, (personagregada) => {
+      personaInput.value = "";
+      ultimoAgregadoLabel.innerText = `Paciente: ${personagregada ?? "...."}`;
     });
   }
 });

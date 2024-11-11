@@ -19,7 +19,7 @@
       <div class="col text-center">
         <h1><u>Ultimo en la Espera...</u></h1>
         <br />
-        <span class="text-capitalize" id="lblUltimoPacienteAgregado"> Cargando... </span>
+        <span class="text-capitalize" id="lblUltimaPersonaAgregada"> Cargando... </span>
       </div>
     </div>
 
@@ -28,18 +28,19 @@
 
     <div class="row justify-content-center">
       <div class="col-12 text-center">
-        <h1><u>Nuevo Paciente para Espera</u></h1>
+        <h1><u>Nuevo Paciente para Esperar</u></h1>
         <br />
       </div>
       <div class="col-md-6 form-group text-center">
         <form id="form" action="" class="was-validated">
           <input
-            id="pacienteInput"
+            id="personaInput"
             class="form-control"
             autocomplete="off"
             type="text"
             name="nombre"
             placeholder="Nombre del Paciente"
+            autofocus
             required
           />
           <div class="invalid-feedback">Por favor ingrese el nombre del nuevo Paciente.</div>
@@ -95,6 +96,6 @@
 
     <script src="js/libs/bootstrap.bundle.min.js"></script>
 
-    <script type="module" src="js/socket.agregar-paciente.js"></script>
+    <script type="module" src="js/socket.agregar-persona.js"></script>
   </body>
 </html>

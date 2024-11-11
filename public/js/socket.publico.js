@@ -1,38 +1,38 @@
 // Comando para establecer la conexión
 import {io} from "/socket.io/socket.io.esm.min.js";
 const socket = io("/llamador");
-const audio = new Audio("audio/new-paciente.mp3");
+const audio = new Audio("audio/new-llamado.mp3");
 
-let lblPacientes = [
-  document.getElementById("lblPaciente1"),
-  document.getElementById("lblPaciente2"),
-  document.getElementById("lblPaciente3"),
-  document.getElementById("lblPaciente4"),
+let lblLlamados = [
+  document.getElementById("lblLlamado1"),
+  document.getElementById("lblLlamado2"),
+  document.getElementById("lblLlamado3"),
+  document.getElementById("lblLlamado4"),
 ];
-let lblConsultorios = [
-  document.getElementById("lblConsultorio1"),
-  document.getElementById("lblConsultorio2"),
-  document.getElementById("lblConsultorio3"),
-  document.getElementById("lblConsultorio4"),
+let lblBoxs = [
+  document.getElementById("lblBox1"),
+  document.getElementById("lblBox2"),
+  document.getElementById("lblBox3"),
+  document.getElementById("lblBox4"),
 ];
 let CheckSound = document.getElementById("CheckSound");
 
 socket.on("estadoActual", (data) => {
   // console.log(data);
   playSound();
-  actualizaHTML(data?.ultimosAtendidos4);
+  actualizaHTML(data?.ultimosLlamados);
 });
 
-socket.on("ultimosAtendidos4", (data) => {
+socket.on("ultimosLlamados", (data) => {
   // console.log(data);
   playSound();
-  actualizaHTML(data?.ultimosAtendidos4);
+  actualizaHTML(data?.ultimosLlamados);
 });
 
-const actualizaHTML = (ultimosAtendidos4) => {
-  for (let i = 0; i <= ultimosAtendidos4?.length - 1; i++) {
-    lblConsultorios[i].innerText = `Consultorio: ${ultimosAtendidos4[i].consultorio}`;
-    lblPacientes[i].innerText = `Paciente: ${ultimosAtendidos4[i].nombre}`;
+const actualizaHTML = (ultimosLlamados) => {
+  for (let i = 0; i <= ultimosLlamados?.length - 1; i++) {
+    lblLlamados[i].innerText = `Paciente: ${ultimosLlamados[i].nombre}`;
+    lblBoxs[i].innerText = `Consultorio: ${ultimosLlamados[i].box}`;
   }
 };
 
