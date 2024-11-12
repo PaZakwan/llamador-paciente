@@ -17,7 +17,7 @@ app.use(express.static(resolve(process.env.MAIN_FOLDER, "../public")));
 
 // MONGODB CONEXIONES DB
 const {startConnectionDB} = await import("#MAIN_FOLDER/db_connection.js");
-startConnectionDB();
+const DB = await startConnectionDB();
 
 // SOCKET IO = esta es la comunicacion del backend (add Socket listen en el WebServer)
 export const io = new Server(httpServer, {
@@ -30,6 +30,9 @@ export const io = new Server(httpServer, {
 });
 // Cargando Eventos
 import("#MAIN_FOLDER/sockets/socket.js");
+
+// Crea los INDEX de la BD.
+const index = await DB.syncIndexes({continueOnError: true});
 
 // Ejecutando WebServer
 httpServer.listen(process.env.PORT, (error) => {
