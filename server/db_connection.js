@@ -17,7 +17,7 @@ mongoose.connection
       // console.log("****** mongoose Default models", defaultConnection.models);
       mongoose.connect(process.env.URLDB, JSON.parse(process.env.DBoptions)).catch((err) => {});
       // }, 20 * 1000);
-    }, 5 * 1000);
+    }, 10 * 1000);
   })
   .on("connected", () => {
     mensajeONLINE("Default");

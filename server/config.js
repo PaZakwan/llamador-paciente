@@ -26,31 +26,16 @@ if (!process.env.BASE_URL) {
 // ============================
 //  Base de datos
 // ============================
-if (process.env.NODE_ENV === "dev") {
-  process.env.URLDB = "mongodb://127.0.0.1:27017/test-llamador";
-  // serverSelectionTimeoutMS: Tiempo en retornar error de reconexion.
-  // bufferCommands: Tiempo de espera en la ejecucion de las query de mongo, no espera antes de retornar un error.
-  // family: 4; No intenta conectar con IPv6.
-  process.env.DBoptions = JSON.stringify({
-    serverSelectionTimeoutMS: 8 * 1000,
-    bufferCommands: false,
-    family: 4,
-    autoIndex: false,
-  });
-} else {
-  process.env.URLDB = process.env.MONGO_URI ?? "mongodb://127.0.0.1:27017/test-llamador";
-  process.env.DBoptions = JSON.stringify({
-    serverSelectionTimeoutMS: 8 * 1000,
-    bufferCommands: false,
-    family: 4,
-    autoIndex: false,
-  });
-  // VER EL TEMA DE CRAFTEO DE INDEXS....
-  // CREAR indexes en los modelos segun consulta corresponda.
-  //    https://www.mongodb.com/docs/v4.4/indexes/
-  //    https://www.mongodb.com/docs/v4.4/tutorial/equality-sort-range-rule/#std-label-esr-indexing-rule
-  //    https://stackoverflow.com/questions/64882609/mongodb-compound-index-with-sort-on-id-unique-index
-}
+process.env.URLDB = process.env.MONGO_URI ?? "mongodb://127.0.0.1:27017/test-llamador";
+// serverSelectionTimeoutMS: Tiempo en retornar error de reconexion.
+// bufferCommands: Tiempo de espera en la ejecucion de las query de mongo, no espera antes de retornar un error.
+// family: 4; No intenta conectar con IPv6.
+process.env.DBoptions = JSON.stringify({
+  serverSelectionTimeoutMS: 8 * 1000,
+  bufferCommands: false,
+  family: 4,
+  autoIndex: false,
+});
 
 // ============================
 //  Certificados SSL/TLS

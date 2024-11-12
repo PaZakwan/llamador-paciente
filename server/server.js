@@ -32,7 +32,7 @@ export const io = new Server(httpServer, {
 import("#MAIN_FOLDER/sockets/socket.js");
 
 // Crea los INDEX de la BD.
-const index = await DB.syncIndexes({continueOnError: true});
+const index = await DB.syncIndexes?.({continueOnError: true});
 
 // Ejecutando WebServer
 httpServer.listen(process.env.PORT, (error) => {
