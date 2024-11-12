@@ -4,6 +4,10 @@ const socket = io("/llamador");
 
 let ultimoAgregadoLabel = document.getElementById("lblUltimaPersonaAgregada");
 
+// ###############
+// EN DESARROLLO
+// ###############
+
 // socket.on("connect", () => {
 //   console.log("Conectado al servidor");
 // });
