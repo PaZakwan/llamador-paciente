@@ -15,31 +15,40 @@ class Persona {
 // AL CREAR DATA tambien conectar con MongoDB y guardar data,
 // Al LEER DATA comparar fecha del json y el MongoDB para saber cual es la mas actual.
 
+// GUARDAR BIEN LA DATA Y GG
+// MongoDB
+// create fecha , object.keys -> area -> ultimosLlamados , personasEsperan.
+// get buscar por fecha y agruparlos :D
+
 export class LlamadorControl {
   constructor(area = "Default") {
-    this.area = area;
     this.fecha = "";
-    this.ultimosLlamados = [];
-    this.personasEsperan = [];
+    this.data = {};
+    // {
+    //   "<area>": {
+    //     ultimosLlamados: [],
+    //     personasEsperan: [],
+    //   },
+    // }
 
     this.cargarData();
   }
 
-  getUltimosLlamados() {
+  getUltimosLlamados({area}) {
     this.cargarData();
-    return this.ultimosLlamados;
+    return this.data[area]?.ultimosLlamados ?? [];
   }
 
-  getPersonasEsperan() {
+  getPersonasEsperan({area}) {
     this.cargarData();
-    return this.personasEsperan;
+    return this.data[area]?.personasEsperan ?? [];
   }
 
-  addPersonaEspera(nombre) {
+  addPersonaEspera({area, nombre}) {
     try {
       this.cargarData();
 
-      this.personasEsperan.push(new Persona(nombre, null));
+      ((this.data[area] ??= {}).personasEsperan ??= []).push(new Persona(nombre, null));
 
       this.grabarData();
 
@@ -49,19 +58,23 @@ export class LlamadorControl {
     }
   }
 
-  llamarSiguientePersona(box) {
+  llamarSiguientePersona({area, box}) {
     try {
       this.cargarData();
-      if (this.personasEsperan.length === 0) {
+      if (this.data[area]?.personasEsperan.length === 0) {
         return "No hay más Personas en Espera.";
       }
 
       // Quitar de Espera
-      let siguientePersona = this.personasEsperan.shift();
+      let siguientePersona = this.data[area].personasEsperan.shift();
       siguientePersona = new Persona(siguientePersona.nombre, box);
 
       // Agregar a LLamados
-      this.ultimosLlamados.unshift(siguientePersona);
+      (this.data[area].ultimosLlamados ??= []).unshift(siguientePersona);
+      // Solamente los ultimos 4 LLamados se guardan
+      if (this.data[area].ultimosLlamados.length > 4) {
+        this.data[area].ultimosLlamados.splice(-1, 1); // borra el último
+      }
 
       this.grabarData();
 
@@ -71,13 +84,17 @@ export class LlamadorControl {
     }
   }
 
-  llamarPersona(persona) {
+  llamarPersona({area, nombre, box}) {
     try {
       this.cargarData();
-      let personaLlamada = new Persona(persona.nombre, persona.box);
+      let personaLlamada = new Persona(nombre, box);
 
       // Agregar a LLamados
-      this.ultimosLlamados.unshift(personaLlamada);
+      ((this.data[area] ??= {}).ultimosLlamados ??= []).unshift(personaLlamada);
+      // Solamente los ultimos 4 LLamados se guardan
+      if (this.data[area].ultimosLlamados.length > 4) {
+        this.data[area].ultimosLlamados.splice(-1, 1); // borra el último
+      }
 
       this.grabarData();
 
@@ -92,9 +109,9 @@ export class LlamadorControl {
       if (!this.fecha) {
         // fecha DATA NO EXISTE
         fs.readFile(
-          resolve(process.env.MAIN_FOLDER, `./data/data-${this.area}.json`),
+          resolve(process.env.MAIN_FOLDER, `./data/llamador.json`),
           "utf8",
-          (err, data) => {
+          (err, file) => {
             if (err) {
               if (err.code === "ENOENT") {
                 // console.error("File not found:", err.path);
@@ -104,12 +121,11 @@ export class LlamadorControl {
               this.reiniciarData();
               return;
             }
-            data = JSON.parse(data);
-            // si existe data y es actual se actualiza
-            if (data.fecha?.slice(0, 10) === new Date().toISOString().slice(0, 10)) {
-              this.fecha = data.fecha;
-              this.ultimosLlamados = data.ultimosLlamados;
-              this.personasEsperan = data.personasEsperan;
+            file = JSON.parse(file);
+            // si existe file y es actual se actualiza
+            if (file.fecha?.slice(0, 10) === new Date().toISOString().slice(0, 10)) {
+              this.fecha = file.fecha;
+              this.data = file.data;
               console.log(`${new Date().toISOString()} <=> Se han cargado los datos locales.`);
             } else {
               this.reiniciarData();
@@ -131,8 +147,7 @@ export class LlamadorControl {
 
   reiniciarData() {
     try {
-      this.ultimosLlamados = [];
-      this.personasEsperan = [];
+      this.data = {};
 
       console.log(`${new Date().toISOString()} <=> Se han reiniciado los datos.`);
       this.grabarData();
@@ -143,19 +158,13 @@ export class LlamadorControl {
 
   grabarData() {
     try {
-      // Solamente los ultimos 4 LLamados se guardan
-      if (this.ultimosLlamados.length > 4) {
-        this.ultimosLlamados.splice(-1, 1); // borra el último
-      }
-
       let jsonDataString = JSON.stringify({
         fecha: new Date().toISOString(),
-        ultimosLlamados: this.ultimosLlamados,
-        personasEsperan: this.personasEsperan,
+        data: this.data,
       });
 
       fs.writeFile(
-        resolve(process.env.MAIN_FOLDER, `./data/data-${this.area}.json`),
+        resolve(process.env.MAIN_FOLDER, `./data/llamador.json`),
         jsonDataString,
         {encoding: "utf8"},
         (err) => {
