@@ -3,31 +3,24 @@ import {LlamadorControl} from "#MAIN_FOLDER/classes/llamador-control.js";
 
 const llamadorControl = new LlamadorControl();
 
-// create Rooms para distintas areas..
-// socket.join("some room");
-// socket.to("some room").emit("some event");
-
 io.of("/llamador").on("connection", (client) => {
   // console.log("#### client ####", client.handshake.address);
   // console.log("client handshake.headers.referer:", client.handshake.headers.referer);
   // console.log("client handshake.query:", client.handshake.query);
-  // console.log("client handshake:", client.handshake);
 
-  // client.join(client.handshake.address);
+  client.join(client.handshake.query.area);
 
   client.on("getUltimosLlamados", (data, callback) => {
-    // actualizar / notificar estado en ultimosLlamados
+    // actualizar / notificar estado en ultimosLlamados, solamente al que emitio el getUltimosLlamados
     client.emit("ultimosLlamados", {
-      // client.to(client.handshake.address).emit("getUltimosLlamados", {
       ultimosLlamados: llamadorControl.getUltimosLlamados({area: client.handshake.query.area}),
     });
     return;
   });
 
   client.on("getPersonasEsperan", (data, callback) => {
-    // actualizar / notificar estado en personasEsperan
+    // actualizar / notificar estado en personasEsperan, solamente al que emitio el getUltimosLlamados
     client.emit("personasEsperan", {
-      // client.to(client.handshake.address).emit("getPersonasEsperan", {
       personasEsperan: llamadorControl.getPersonasEsperan({area: client.handshake.query.area}),
     });
     return;
@@ -55,9 +48,8 @@ io.of("/llamador").on("connection", (client) => {
       });
       // console.log("personaLlamada: ", personaLlamada);
 
-      // actualizar / notificar cambios en ultimosLlamados
-      client.broadcast.emit("ultimosLlamados", {
-        // client.broadcast.to(client.handshake.address).emit("ultimosLlamados", {
+      // actualizar / notificar cambios en ultimosLlamados, a todo el grupo del "area"
+      client.to(client.handshake.query.area).emit("ultimosLlamados", {
         ultimosLlamados: llamadorControl.getUltimosLlamados({area: client.handshake.query.area}),
       });
 
@@ -86,9 +78,8 @@ io.of("/llamador").on("connection", (client) => {
       });
       // console.log("agregado: ", agregado);
 
-      // actualizar / notificar cambios en personasEsperan
-      client.broadcast.emit("personasEsperan", {
-        // client.broadcast.to(client.handshake.address).emit("personasEsperan", {
+      // actualizar / notificar cambios en personasEsperan, a todo el grupo del "area"
+      client.broadcast.to(client.handshake.query.area).emit("personasEsperan", {
         personasEsperan: llamadorControl.getPersonasEsperan({area: client.handshake.query.area}),
       });
 
@@ -117,9 +108,8 @@ io.of("/llamador").on("connection", (client) => {
       });
       // console.log("siguientePersona: ", siguientePersona);
 
-      // actualizar / notificar cambios en ultimosLlamados
-      client.broadcast.emit("ultimosLlamados", {
-        // client.broadcast.to(client.handshake.address).emit("ultimosLlamados", {
+      // actualizar / notificar cambios en ultimosLlamados, a todo el grupo del "area"
+      client.to(client.handshake.query.area).emit("ultimosLlamados", {
         ultimosLlamados: llamadorControl.getUltimosLlamados({area: client.handshake.query.area}),
       });
 
