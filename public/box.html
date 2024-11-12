@@ -11,52 +11,41 @@
   </head>
 
   <body class="container-fluid">
-    <br />
     <u>
-      <h1 class="persona-llamada-box">Consultorio: <span id="lblBox">...</span></h1>
+      <h1 class="persona-llamada-box my-4">Consultorio: <span id="lblBox">...</span></h1>
     </u>
-    <br />
 
     <div class="row justify-content-center">
-      <div class="col text-center">
+      <div class="col text-center my-4">
         <h1>
           Ultima Persona Llamada: <small class="text-capitalize" id="lblPersonaLlamada">....</small>
         </h1>
       </div>
-    </div>
 
-    <br />
-    <br />
-
-    <div class="row justify-content-center">
-      <div class="col-12 text-center">
-        <h1><u>Nuevo Paciente</u></h1>
-        <br />
+      <div class="col-12 text-center my-3">
+        <h1><u>Llamar otra Persona</u></h1>
       </div>
-      <div class="col-md-6 form-group text-center">
+      <div class="col-12 col-md-6 form-group text-center">
         <form id="form" action="" class="was-validated">
           <input
             id="personaInput"
-            class="form-control"
+            class="form-control my-2"
             autocomplete="off"
             type="text"
             name="nombre"
-            placeholder="Nombre del Paciente"
+            placeholder="Nombre de la Persona"
             autofocus
             required
           />
-          <div class="invalid-feedback">Por favor ingrese el nombre del nuevo Paciente.</div>
+          <div class="invalid-feedback">Por favor ingrese el nombre de la nueva Persona.</div>
 
-          <br />
-          <a class="btn btn-danger btn-lg m-1" href="index.html">Salir</a>
-          <button type="submit" class="btn btn-warning btn-lg m-1">Llamar Paciente</button>
+          <a class="btn btn-danger btn-lg m-2" href="index.html">Salir</a>
+          <button type="submit" class="btn btn-warning btn-lg m-2">Llamar Persona</button>
+          <!-- <hr class="w-100 border border-warning my-3" />
+          <button id="llamarSiguiente" class="btn btn-warning btn-lg m-1">
+            Llamar siguiente Persona en Espera
+          </button> -->
         </form>
-        <!-- <br />
-        <hr class="w-100 border border-info my-0" />
-        <br />
-        <button id="llamarSiguiente" class="btn btn-warning btn-lg m-1">
-          Llamar siguiente Persona en Espera
-        </button> -->
       </div>
     </div>
 
