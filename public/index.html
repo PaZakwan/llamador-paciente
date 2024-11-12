@@ -11,49 +11,30 @@
   </head>
 
   <body class="container-fluid">
-    <br />
-    <h1 class="display-2 fw-bold">LLamador de Pacientes</h1>
-    <br />
-
-    <!-- <div class="row justify-content-center">
-      <div class="col-12 text-center">
-        <h1>Area</h1>
-        <br />
-      </div>
-
-      <div class="col-md-6 text-center">
-        <select class="form-select form-select-lg" name="area" id="area-select">
-          <option value="Default" selected>--Please choose an option--</option>
-          <option value="dog">CISI</option>
-          <option value="cat">La Bibiana</option>
-        </select>
-      </div>
-    </div>
-
-    <br />
-    <br /> -->
+    <h1 class="display-2 fw-bold my-4">LLamador de Personas</h1>
 
     <div class="row justify-content-center">
-      <div class="col text-center">
-        <a class="btn btn-info btn-lg m-1 text-light" href="publico.html">Pantalla Publica</a>
-        <!-- <a class="btn btn-info btn-lg m-1" href="agregar-persona.html"
-          >Mostrador - Agregar Pacientes</a
-        > -->
-      </div>
-    </div>
-
-    <br />
-    <br />
-
-    <div class="row justify-content-center">
-      <div class="col-12 text-center">
-        <h1>Ingresar desde Consultorio</h1>
-        <br />
-      </div>
-      <div class="col-md-6 text-center">
-        <form action="consultorio.html">
+      <!-- <div class="col-12 text-center my-3">
+        <h1>Index</h1>
+      </div> -->
+      <div class="col-12 col-md-6 text-center">
+        <form>
+          <select id="area-select" class="form-select form-select-lg my-2" name="area" required>
+            <option value="" selected>- Seleccione un Area -</option>
+            <option value="CISI">CISI</option>
+            <option value="La Bibiana">La Bibiana</option>
+          </select>
+          <!-- Muestra Personas que se Llaman -->
+          <button class="btn btn-info btn-lg m-2 text-light" onclick="toPublico(event)">
+            Pantalla Publica
+          </button>
+          <!-- Agregar Persona a la Espera -->
+          <!-- <button class="btn btn-info btn-lg m-2 text-light" onclick="toAgregarPersona(event)">
+            Mostrador
+          </button> -->
           <input
-            class="form-control"
+            id="boxInput"
+            class="form-control my-2"
             autocomplete="off"
             type="text"
             name="consultorio"
@@ -61,9 +42,9 @@
             autofocus
             required
           />
-
-          <br />
-          <button type="submit" class="btn btn-warning btn-lg m-1">Ingresar al Consultorio</button>
+          <button class="btn btn-warning btn-lg m-2" onclick="toBox(event)">
+            Ingresar al Consultorio
+          </button>
         </form>
       </div>
     </div>
@@ -109,5 +90,35 @@
     </footer>
 
     <script src="js/libs/bootstrap.bundle.min.js"></script>
+    <script>
+      const toPublico = (event) => {
+        let area = document.getElementById("area-select").value;
+        if (!area) {
+          return alert("Seleccione un Area.");
+        }
+        event.preventDefault();
+        window.location.href = `publico.html?area=${area}`;
+      };
+      const toBox = (event) => {
+        let area = document.getElementById("area-select").value;
+        let boxInput = document.getElementById("boxInput").value;
+        if (!area) {
+          return alert("Seleccione un Area.");
+        }
+        if (!boxInput) {
+          return alert("Seleccione un Consultorio.");
+        }
+        event.preventDefault();
+        window.location.href = `box.html?area=${area}&boxName=${boxInput}`;
+      };
+      const toAgregarPersona = (event) => {
+        let area = document.getElementById("area-select").value;
+        if (!area) {
+          return alert("Seleccione un Area.");
+        }
+        event.preventDefault();
+        window.location.href = `agregar-persona.html?area=${area}`;
+      };
+    </script>
   </body>
 </html>
