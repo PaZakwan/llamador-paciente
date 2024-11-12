@@ -9,16 +9,28 @@ const llamadorControl = new LlamadorControl();
 
 io.of("/llamador").on("connection", (client) => {
   // console.log("#### client ####", client.handshake.address);
-  console.log("client handshake.address:", client.handshake.address);
-  console.log("client handshake.headers.referer:", client.handshake.headers.referer);
+  // console.log("client handshake.headers.referer:", client.handshake.headers.referer);
+  // console.log("client handshake.query:", client.handshake.query);
   // console.log("client handshake:", client.handshake);
 
   // client.join(client.handshake.address);
 
-  client.emit("estadoActual", {
-    // client.to(client.handshake.address).emit("estadoActual", {
-    ultimosLlamados: llamadorControl.getUltimosLlamados(),
-    personasEsperan: llamadorControl.getPersonasEsperan(),
+  client.on("getUltimosLlamados", (data, callback) => {
+    // actualizar / notificar estado en ultimosLlamados
+    client.emit("ultimosLlamados", {
+      // client.to(client.handshake.address).emit("getUltimosLlamados", {
+      ultimosLlamados: llamadorControl.getUltimosLlamados({area: client.handshake.query.area}),
+    });
+    return;
+  });
+
+  client.on("getPersonasEsperan", (data, callback) => {
+    // actualizar / notificar estado en personasEsperan
+    client.emit("personasEsperan", {
+      // client.to(client.handshake.address).emit("getPersonasEsperan", {
+      personasEsperan: llamadorControl.getPersonasEsperan({area: client.handshake.query.area}),
+    });
+    return;
   });
 
   client.on("llamarPersona", (data, callback) => {
@@ -29,7 +41,6 @@ io.of("/llamador").on("connection", (client) => {
           mensaje: "El Consultorio es necesario.",
         });
       }
-
       if (!data.nombre) {
         return callback({
           err: true,
@@ -38,6 +49,7 @@ io.of("/llamador").on("connection", (client) => {
       }
 
       let personaLlamada = llamadorControl.llamarPersona({
+        area: client.handshake.query.area,
         nombre: data.nombre,
         box: data.box,
       });
@@ -46,7 +58,7 @@ io.of("/llamador").on("connection", (client) => {
       // actualizar / notificar cambios en ultimosLlamados
       client.broadcast.emit("ultimosLlamados", {
         // client.broadcast.to(client.handshake.address).emit("ultimosLlamados", {
-        ultimosLlamados: llamadorControl.getUltimosLlamados(),
+        ultimosLlamados: llamadorControl.getUltimosLlamados({area: client.handshake.query.area}),
       });
 
       return callback(personaLlamada);
@@ -68,13 +80,16 @@ io.of("/llamador").on("connection", (client) => {
         });
       }
 
-      let agregado = llamadorControl.addPersonaEspera(data.nombre);
+      let agregado = llamadorControl.addPersonaEspera({
+        area: client.handshake.query.area,
+        nombre: data.nombre,
+      });
       // console.log("agregado: ", agregado);
 
       // actualizar / notificar cambios en personasEsperan
       client.broadcast.emit("personasEsperan", {
         // client.broadcast.to(client.handshake.address).emit("personasEsperan", {
-        personasEsperan: llamadorControl.getPersonasEsperan(),
+        personasEsperan: llamadorControl.getPersonasEsperan({area: client.handshake.query.area}),
       });
 
       return callback(agregado);
@@ -96,13 +111,16 @@ io.of("/llamador").on("connection", (client) => {
         });
       }
 
-      let siguientePersona = llamadorControl.llamarSiguientePersona(data.box);
+      let siguientePersona = llamadorControl.llamarSiguientePersona({
+        area: client.handshake.query.area,
+        box: data.box,
+      });
       // console.log("siguientePersona: ", siguientePersona);
 
       // actualizar / notificar cambios en ultimosLlamados
       client.broadcast.emit("ultimosLlamados", {
         // client.broadcast.to(client.handshake.address).emit("ultimosLlamados", {
-        ultimosLlamados: llamadorControl.getUltimosLlamados(),
+        ultimosLlamados: llamadorControl.getUltimosLlamados({area: client.handshake.query.area}),
       });
 
       return callback(siguientePersona);
