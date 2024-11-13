@@ -11,7 +11,7 @@ class Persona {
 }
 
 export class LlamadorControl {
-  constructor(area = "Default") {
+  constructor() {
     this.fecha = "";
     this.data = {};
     // {
@@ -40,7 +40,7 @@ export class LlamadorControl {
 
       ((this.data[area] ??= {}).personasEsperan ??= []).push(new Persona(nombre, null));
 
-      this.grabarData();
+      this.grabarData({area});
 
       return nombre;
     } catch (error) {
@@ -66,7 +66,7 @@ export class LlamadorControl {
         this.data[area].ultimosLlamados.splice(-1, 1); // borra el último
       }
 
-      this.grabarData();
+      this.grabarData({area});
 
       return siguientePersona;
     } catch (error) {
@@ -86,7 +86,7 @@ export class LlamadorControl {
         this.data[area].ultimosLlamados.splice(-1, 1); // borra el último
       }
 
-      this.grabarData();
+      this.grabarData({area});
 
       return personaLlamada;
     } catch (error) {
@@ -96,60 +96,50 @@ export class LlamadorControl {
 
   async cargarData() {
     try {
-      // fecha DATA NO EXISTE
       let ahora = new Date();
-      if (!this.fecha) {
+      // fecha DATA existe y es HOY -> NO EJECUTA NADA
+      if (this.fecha?.slice(0, 10) === ahora.toISOString().slice(0, 10)) {
+        return;
+      }
+      // fecha DATA existe y es diferente de HOY -> Reiniciar Data
+      else if (this.fecha) {
+        this.reiniciarData();
+        return;
+      }
+      // fecha DATA NO EXISTE
+      else {
         // Buscar data en DB
+        let DB = null;
         if (process.env.URLDB) {
           try {
-            let DB = await Llamador.aggregate()
+            DB = await Llamador.aggregate()
               .match({
                 fecha: {
                   // fecha de hoy
-                  $gte: `${ahora.toISOString().slice(0, 10)}T00:00:00.000Z`,
-                  $lte: `${ahora.toISOString().slice(0, 10)}T23:59:59.999Z`,
+                  $gte: new Date(`${ahora.toISOString().slice(0, 10)}T00:00:00.000Z`),
+                  $lte: new Date(`${ahora.toISOString().slice(0, 10)}T23:59:59.999Z`),
                 },
               })
-              .project({_id: 0})
+              .sort({fecha: -1})
+              .project({_id: 0, __v: 0})
               .exec();
-            // #########
-            // VER FILTRO DE FECHA
-            console.log("DESARROLLO read DB", DB);
-            // #########
-            if (DB.length > 0) {
-              console.log("ohh yeah! a recorrer el array y mandarlo al this.fecha & this.data...");
-            }
           } catch (error) {
             // fallo la consulta a la DB
-            // console.error("Llamador.aggregate: ", error);
+            console.error("Error - LlamadorControl-cargarData aggregate: ", error);
+            DB = null;
           }
         }
         // Buscar data en file
+        let file = null;
         try {
-          let file = await fs.promises.readFile(
+          file = await fs.promises.readFile(
             resolve(process.env.MAIN_FOLDER, `./data/llamador.json`),
             "utf8"
           );
           file = JSON.parse(file);
-          // no existe DB pero si existe file y es actual -> actualiza
-          if (!this.fecha && file.fecha?.slice(0, 10) === ahora.toISOString().slice(0, 10)) {
-            this.fecha = file.fecha;
-            this.data = file.data;
-            console.log(`${ahora.toISOString()} <=> Se han cargado los datos locales.`);
-          }
-          // existe DB y file actual tambien -> Comparar fecha y dejar mas actual.
-          else if (
-            this.fecha &&
-            file.fecha?.slice(0, 10) === ahora.toISOString().slice(0, 10) &&
-            new Date(file.fecha).getTime() > new Date(this.fecha).getTime()
-          ) {
-            this.fecha = file.fecha;
-            this.data = file.data;
-            console.log(`${ahora.toISOString()} <=> Se han cargado los datos locales.`);
-          }
-          // no hay file actual -> reinicia
-          else {
-            this.reiniciarData();
+          // borrar file si no es ACTUAL
+          if (file?.fecha?.slice(0, 10) !== ahora.toISOString().slice(0, 10)) {
+            file = null;
           }
         } catch (error) {
           if (error.code === "ENOENT") {
@@ -157,23 +147,60 @@ export class LlamadorControl {
           } else {
             console.error("Error - LlamadorControl-cargarData readFile: ", error);
           }
-          // si no existe file y tampoco DB -> reinicia
-          if (!this.fecha) {
-            this.reiniciarData();
+          file = null;
+        }
+        // Comparar file y DB
+        // file existe, DB existe -> Compararlos -> Actualizar Mas Actual
+        if (file && DB?.length > 0) {
+          if (new Date(file.fecha).getTime() >= DB[0].fecha?.getTime()) {
+            this.fecha = file.fecha;
+            this.data = file.data;
+            console.log(`${ahora.toISOString()} <=> Se han cargado los datos locales.`);
+            return;
+          } else {
+            this.fecha = DB[0].fecha?.toISOString();
+            DB.forEach((document) => {
+              if (document.ultimosLlamados) {
+                (this.data[document.area] ??= {}).ultimosLlamados = document.ultimosLlamados;
+              }
+              if (document.personasEsperan) {
+                (this.data[document.area] ??= {}).personasEsperan = document.personasEsperan;
+              }
+            });
+            console.log(`${ahora.toISOString()} <=> Se han cargado los datos de la DB.`);
+            return;
           }
+        }
+        // file existe, DB no existe -> Actualizar con file
+        else if (file && !DB?.length > 0) {
+          this.fecha = file.fecha;
+          this.data = file.data;
+          console.log(`${ahora.toISOString()} <=> Se han cargado los datos locales.`);
+          return;
+        }
+        // file no existe, DB existe -> Actualizar con DB
+        else if (!file && DB?.length > 0) {
+          this.fecha = DB[0].fecha?.toISOString();
+          DB.forEach((document) => {
+            if (document.ultimosLlamados) {
+              (this.data[document.area] ??= {}).ultimosLlamados = document.ultimosLlamados;
+            }
+            if (document.personasEsperan) {
+              (this.data[document.area] ??= {}).personasEsperan = document.personasEsperan;
+            }
+          });
+          console.log(`${ahora.toISOString()} <=> Se han cargado los datos de la DB.`);
+          return;
+        }
+        // file no existe, DB no existe -> Reiniciar Data
+        else {
+          this.reiniciarData();
           return;
         }
       }
-      // fecha DATA existe y es diferente de HOY
-      else if (this.fecha?.slice(0, 10) !== ahora.toISOString().slice(0, 10)) {
-        this.reiniciarData();
-        return;
-      }
-      // fecha DATA existe y es HOY
-      // NO EJECUTA NADA
-      return;
     } catch (error) {
       console.error("Error - LlamadorControl-cargarData: ", error);
+      // no hay fecha o la fecha no es actual
       if (!this.fecha || this.fecha.slice(0, 10) !== new Date().toISOString().slice(0, 10)) {
         this.reiniciarData();
       }
@@ -192,16 +219,16 @@ export class LlamadorControl {
     }
   }
 
-  grabarData() {
+  grabarData({area = null} = {}) {
     try {
       let ahora = new Date();
       // grabar data en DB
       if (process.env.URLDB) {
         try {
-          // recorre areas
-          Object.keys(this.data).forEach((key) => {
-            //   crear un documento por dia, si es mismo dia actualizarlo.
-            let DB = Llamador.findOneAndUpdate(
+          // recorrer areas de this.data [{<area>:{}}] si area seleccionada (parametro de la funcion) no existe
+          (area ? [area] : Object.keys(this.data)).forEach((key) => {
+            //   crear un documento por dia, si es del mismo dia actualizarlo.
+            Llamador.findOneAndUpdate(
               {
                 fecha: {
                   // fecha de hoy
@@ -217,22 +244,16 @@ export class LlamadorControl {
                 personasEsperan: this.data[key].personasEsperan,
               },
               {
-                returnOriginal: false,
+                // returnOriginal: false,
                 runValidators: true,
                 upsert: true,
                 setDefaultsOnInsert: true,
               }
             ).exec();
-            // #########
-            // DESARROLLAR PARA QUE SOLO GUARDE UNA DE LAS AREAS SEGUN LA OPCION DE LA OPERACION... (Pasar area como parametro)
-            console.log("DESARROLLO Update DB", key, DB);
-            // #########
           });
         } catch (error) {
           // fallo la consulta a la DB
-          // #########
-          console.error("Llamador.findOneAndUpdate: ", error);
-          // #########
+          console.error("Error - LlamadorControl-grabarData findOneAndUpdate: ", error);
         }
       }
 
