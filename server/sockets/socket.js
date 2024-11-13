@@ -7,8 +7,16 @@ io.of("/llamador").on("connection", (client) => {
   // console.log("#### client ####", client.handshake.address);
   // console.log("client handshake.headers.referer:", client.handshake.headers.referer);
   // console.log("client handshake.query:", client.handshake.query);
-
   client.join(client.handshake.query.area);
+
+  // actualizar / notificar estado en ultimosLlamados, solamente al que emitio el getUltimosLlamados
+  client.emit("ultimosLlamados", {
+    ultimosLlamados: llamadorControl.getUltimosLlamados({area: client.handshake.query.area}),
+  });
+  // actualizar / notificar estado en personasEsperan, solamente al que emitio el getUltimosLlamados
+  client.emit("personasEsperan", {
+    personasEsperan: llamadorControl.getPersonasEsperan({area: client.handshake.query.area}),
+  });
 
   client.on("getUltimosLlamados", (data, callback) => {
     // actualizar / notificar estado en ultimosLlamados, solamente al que emitio el getUltimosLlamados
@@ -17,7 +25,6 @@ io.of("/llamador").on("connection", (client) => {
     });
     return;
   });
-
   client.on("getPersonasEsperan", (data, callback) => {
     // actualizar / notificar estado en personasEsperan, solamente al que emitio el getUltimosLlamados
     client.emit("personasEsperan", {
