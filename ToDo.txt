@@ -2,8 +2,6 @@
 #  To Do   #
 ############
 
-    [ ]   Server => Guardar data tanto en json local como en MongoDB.
-
     [ ]   Public/Server => Poder volver a Llamar a la ultima Persona llamada del Box.
 
     [ ]   Public => Mostrar en el Box las personas llamadas del area (mini pantalla publica o una tabla).
