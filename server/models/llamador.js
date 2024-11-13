@@ -35,7 +35,7 @@ const LlamadorSchema = new mongoose.Schema(
         },
       ],
       _id: false,
-      default: [],
+      default: void 0,
     },
     personasEsperan: {
       type: [
@@ -47,7 +47,7 @@ const LlamadorSchema = new mongoose.Schema(
         },
       ],
       _id: false,
-      default: [],
+      default: void 0,
     },
   },
   schemaOptions
