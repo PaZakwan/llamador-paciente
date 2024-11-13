@@ -10,12 +10,27 @@
     <link rel="stylesheet" href="css/style.css" />
   </head>
 
-  <body class="container-fluid">
-    <u>
-      <h1 class="persona-llamada-box my-4">Consultorio: <span id="lblBox">...</span></h1>
-    </u>
+  <body class="container-fluid px-0">
+    <nav class="sticky-top navbar navbar-expand navbar-light bg-light px-3" style="height: 36px">
+      <a href="index.html" data-toggle="tooltip" title="Volver a Inicio">
+        <img
+          src="/img/logo-color-64x64.png"
+          width="32"
+          height="32"
+          class="d-inline-block align-top"
+          alt="Moreno"
+        />
+      </a>
+      <span
+        id="area"
+        class="col align-items-center text-start text-black text-capitalize px-3"
+      ></span>
+    </nav>
+    <div class="row justify-content-center px-2 mx-0">
+      <u>
+        <h1 class="persona-llamada-box my-4">Consultorio: <span id="lblBox">...</span></h1>
+      </u>
 
-    <div class="row justify-content-center">
       <div class="col text-center my-4">
         <h1>
           Ultima Persona Llamada: <small class="text-capitalize" id="lblPersonaLlamada">....</small>
@@ -25,19 +40,24 @@
       <div class="col-12 text-center my-3">
         <h1><u>Llamar otra Persona</u></h1>
       </div>
-      <div class="col-12 col-md-6 form-group text-center">
-        <form id="form" action="" class="was-validated">
-          <input
-            id="personaInput"
-            class="form-control my-2"
-            autocomplete="off"
-            type="text"
-            name="nombre"
-            placeholder="Nombre de la Persona"
-            autofocus
-            required
-          />
-          <div class="invalid-feedback">Por favor ingrese el nombre de la nueva Persona.</div>
+      <div class="col-12 col-md-6 text-center">
+        <form id="form" action="" class="form-group was-validated">
+          <div class="col-12 text-start">
+            <label for="personaInput" class="form-label">Nombre</label>
+            <input
+              id="personaInput"
+              class="form-control my-2"
+              autocomplete="off"
+              type="text"
+              name="nombre"
+              placeholder="Nombre de la Persona"
+              autofocus
+              required
+            />
+            <div class="invalid-feedback">
+              Por favor, ingrese el nombre de la nueva Persona a llamar.
+            </div>
+          </div>
 
           <a class="btn btn-danger btn-lg m-2" href="index.html">Salir</a>
           <button type="submit" class="btn btn-warning btn-lg m-2">Llamar Persona</button>

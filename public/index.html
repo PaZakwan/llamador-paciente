@@ -17,13 +17,17 @@
       <!-- <div class="col-12 text-center my-3">
         <h1>Index</h1>
       </div> -->
-      <div class="col-12 col-md-6 form-group text-center">
-        <form id="form" action="" class="was-validated">
-          <select id="area-select" class="form-select form-select-lg my-2" name="area" required>
-            <option value="" selected>- Seleccione un Area -</option>
-            <option value="CISI">CISI</option>
-            <option value="La Bibiana">La Bibiana</option>
-          </select>
+      <div class="col-12 col-md-6 text-center">
+        <form id="form" action="" class="form-group">
+          <div class="col-12 text-start">
+            <label for="area-select" class="form-label">Area</label>
+            <select id="area-select" class="form-select form-select-lg my-2" name="area" required>
+              <option value="" selected disabled>- Seleccione un Area -</option>
+              <option value="CISI">CISI</option>
+              <option value="La Bibiana">La Bibiana</option>
+            </select>
+            <div class="invalid-feedback">Por favor, seleccione un Area.</div>
+          </div>
           <!-- Muestra Personas que se Llaman -->
           <button class="btn btn-info btn-lg m-2 text-light" onclick="toPublico(event)">
             Pantalla Publica
@@ -33,16 +37,20 @@
             Mostrador
           </button> -->
           <hr class="w-100 border border-warning my-3" />
-          <input
-            id="boxInput"
-            class="form-control my-2"
-            autocomplete="off"
-            type="text"
-            name="consultorio"
-            placeholder="Consultorio"
-            autofocus
-            required
-          />
+          <div class="col-12 text-start">
+            <label for="boxInput" class="form-label">Consultorio</label>
+            <input
+              id="boxInput"
+              class="form-control my-2"
+              autocomplete="off"
+              type="text"
+              name="consultorio"
+              placeholder="Consultorio"
+              autofocus
+              required
+            />
+            <div class="invalid-feedback">Por favor, escriba su N° de Consultorio.</div>
+          </div>
           <button class="btn btn-warning btn-lg m-2" onclick="toBox(event)">
             Ingresar al Consultorio
           </button>
@@ -100,7 +108,9 @@
       const toPublico = (event) => {
         let area = document.getElementById("area-select").value;
         if (!area) {
-          return alert("Seleccione un Area.");
+          document.getElementById("form").classList.add("was-validated");
+          // alert("Seleccione un Area.");
+          return;
         }
         event.preventDefault();
         window.location.href = `publico.html?area=${area}`;
@@ -109,10 +119,14 @@
         let area = document.getElementById("area-select").value;
         let boxInput = document.getElementById("boxInput").value;
         if (!area) {
-          return alert("Seleccione un Area.");
+          document.getElementById("form").classList.add("was-validated");
+          // alert("Seleccione un Area.");
+          return;
         }
         if (!boxInput) {
-          return alert("Seleccione un Consultorio.");
+          document.getElementById("form").classList.add("was-validated");
+          // alert("Seleccione un Consultorio.");
+          return;
         }
         event.preventDefault();
         window.location.href = `box.html?area=${area}&boxName=${boxInput}`;
@@ -120,7 +134,9 @@
       const toAgregarPersona = (event) => {
         let area = document.getElementById("area-select").value;
         if (!area) {
-          return alert("Seleccione un Area.");
+          document.getElementById("form").classList.add("was-validated");
+          // alert("Seleccione un Area.");
+          return;
         }
         event.preventDefault();
         window.location.href = `agregar-persona.html?area=${area}`;

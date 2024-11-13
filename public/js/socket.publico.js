@@ -8,6 +8,7 @@ if (!searchParams.has("area")) {
   alert("El area es necesaria.");
 }
 const area = searchParams.get("area")?.trim().toLowerCase();
+document.getElementById("area").innerText = area;
 
 const socket = io("/llamador", {
   query: {
@@ -28,10 +29,6 @@ let lblLlamados = [
   document.getElementById("lblLlamado4"),
 ];
 let CheckSound = document.getElementById("CheckSound");
-
-socket.emit("getUltimosLlamados", null, (resp) => {
-  // console.log(resp);
-});
 
 socket.on("ultimosLlamados", (data) => {
   if (data?.ultimosLlamados?.length > 0) {
