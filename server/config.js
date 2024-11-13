@@ -26,6 +26,7 @@ if (!process.env.BASE_URL) {
 // ============================
 //  Base de datos
 // ============================
+// Dejar string vacio ("") si no quiere conectar/reconectar a mongoDB (logs)
 process.env.URLDB = process.env.MONGO_URI ?? "mongodb://127.0.0.1:27017/test-llamador";
 // serverSelectionTimeoutMS: Tiempo en retornar error de reconexion.
 // bufferCommands: Tiempo de espera en la ejecucion de las query de mongo, no espera antes de retornar un error.

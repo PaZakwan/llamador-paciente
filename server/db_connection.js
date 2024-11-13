@@ -9,15 +9,17 @@ mongoose.set("allowDiskUse", true);
 mongoose.connection
   .on("error", (err) => {
     // Primer conexion falla
-    mensajeReintentando("Default");
-    // console.error(`mongoose.connect ERROR (Default), ${err.name}: ${err.message}.`);
-    // let defaultConnection = this;
-    // intenta reconectar pasados los 20 seg de un error
-    setTimeout(() => {
-      // console.log("****** mongoose Default models", defaultConnection.models);
-      mongoose.connect(process.env.URLDB, JSON.parse(process.env.DBoptions)).catch((err) => {});
-      // }, 20 * 1000);
-    }, 10 * 1000);
+    if (process.env.URLDB) {
+      mensajeReintentando("Default");
+      // console.error(`mongoose.connect ERROR (Default), ${err.name}: ${err.message}.`);
+      // let defaultConnection = this;
+      // intenta reconectar pasados los 20 seg de un error
+      setTimeout(() => {
+        // console.log("****** mongoose Default models", defaultConnection.models);
+        mongoose.connect(process.env.URLDB, JSON.parse(process.env.DBoptions)).catch((err) => {});
+        // }, 20 * 1000);
+      }, 10 * 1000);
+    }
   })
   .on("connected", () => {
     mensajeONLINE("Default");
@@ -34,7 +36,9 @@ export const startConnectionDB = async () => {
 
     return mongoose;
   } catch (error) {
-    console.error(`startConnectionDB CATCH => ${error.name}: ${error.message}.`);
+    if (process.env.URLDB) {
+      console.error(`startConnectionDB CATCH => ${error.name}: ${error.message}.`);
+    }
     return false;
   }
 };
@@ -53,6 +57,8 @@ const mensajeONLINE = (db) => {
 };
 const mensajeOFFLINE = (db) => {
   console.error(`XXXXX ${new Date().toISOString()} <=> Base de Datos OFFLINE (${db}). XXXXX`);
-  console.error("XXXXX Esperando Re-conectar... XXXXX");
+  if (process.env.URLDB) {
+    console.error("XXXXX Esperando Re-conectar... XXXXX");
+  }
   // console.log(`mongoose.connections *OFFLINE ${db}*`, mongoose.connections.length);
 };
