@@ -55,7 +55,7 @@ io.of("/llamador").on("connection", (client) => {
 
       return callback(personaLlamada);
     } catch (error) {
-      console.log("Error - llamarPersona: ", error);
+      console.error("Error - llamarPersona: ", error);
       return callback({
         err: true,
         mensaje: `Error - llamarPersona: ${error}`,
@@ -85,7 +85,7 @@ io.of("/llamador").on("connection", (client) => {
 
       return callback(agregado);
     } catch (error) {
-      console.log("Error - addPersonaEspera: ", error);
+      console.error("Error - addPersonaEspera: ", error);
       return callback({
         err: true,
         mensaje: `Error - addPersonaEspera: ${error}`,
@@ -115,7 +115,7 @@ io.of("/llamador").on("connection", (client) => {
 
       return callback(siguientePersona);
     } catch (error) {
-      console.log("Error - llamarSiguientePersona: ", error);
+      console.error("Error - llamarSiguientePersona: ", error);
       return callback({
         err: true,
         mensaje: `Error - llamarSiguientePersona: ${error}`,
