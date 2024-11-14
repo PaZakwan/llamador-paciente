@@ -12,7 +12,9 @@ process.env.PORT = process.env.PORT ?? 80;
 //  IP LOCAL O SERVIDOR
 // ============================
 
-if (!process.env.BASE_URL) {
+if (process.env.BASE_URL) {
+  process.env.BASE_URL = JSON.stringify([`${process.env.BASE_URL}:${process.env.PORT}`]);
+} else {
   const {networkInterfaces} = await import("os");
 
   const ipServer = Object.values(networkInterfaces())
