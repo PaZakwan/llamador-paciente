@@ -2,12 +2,14 @@
 #  To Do   #
 ############
 
-    [ ]   Public/Server => Poder volver a Llamar a la ultima Persona llamada del Box.
+- [ ] ‼️ LLAMADOR - ERROR -> Al siguiente dia, guarda en la BD un solo llamado(borrando el previo llamado) y no hace el llamado del que guarda!!??
 
-    [ ]   Public => Mostrar en el Box las personas llamadas del area (mini pantalla publica o una tabla).
+- [ ]   Public/Server => Poder volver a Llamar a la ultima Persona llamada del Box.
 
-    [ ]   Public => Agregar Personas a una lista de espera desde una Mesa de entrada.
+- [ ]   Public => Mostrar en el Box las personas llamadas del area (mini pantalla publica o una tabla).
 
-    [ ]   Server => Contar Personas Atendidas.
+- [ ]   Public => Agregar Personas a una lista de espera desde una Mesa de entrada.
 
-    [ ]   Server => Tarea programada para resetear la data y emitir los eventos oportunos.
+- [ ]   Server => Contar Personas Atendidas.
+
+- [ ]   Server => Tarea programada para resetear la data y emitir los eventos oportunos.
