@@ -11,7 +11,7 @@ const schemaOptions = {
 
 const LlamadorSchema = new mongoose.Schema(
   {
-    fecha: {
+    fechaData: {
       type: Date,
       default: Date.now,
     },

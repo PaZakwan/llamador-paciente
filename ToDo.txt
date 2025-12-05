@@ -2,7 +2,7 @@
 #  To Do   #
 ############
 
-- [ ] ‼️ LLAMADOR - ERROR -> Al siguiente dia, guarda en la BD un solo llamado(borrando el previo llamado) y no hace el llamado del que guarda!!??
+- [~] ‼️ LLAMADOR - ERROR -> Al siguiente dia, guarda en la BD un solo llamado(borrando el previo llamado) y no hace el llamado del que guarda!!??
 
 - [ ]   Public/Server => Poder volver a Llamar a la ultima Persona llamada del Box.
 
