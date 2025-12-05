@@ -1,6 +1,6 @@
 // Comando para establecer la conexión
 import {io} from "/socket.io/socket.io.esm.min.js";
-const audio = new Audio("audio/new-llamado.mp3");
+const audioLlamado = new Audio("audio/new-llamado.mp3");
 
 const searchParams = new URLSearchParams(window.location.search);
 if (!searchParams.has("area")) {
@@ -51,11 +51,21 @@ const actualizaHTML = (ultimosLlamados) => {
 
 const playSound = () => {
   if (CheckSound.checked) {
-    audio.play().catch(function (error) {
+    // Reset Audio before play again (now can spam playSound)
+    audioLlamado.pause();
+    audioLlamado.currentTime = 0;
+
+    audioLlamado.play().catch(function (error) {
       if (CheckSound.checked) {
         CheckSound.checked = false;
       }
     });
   }
 };
+
+setTimeout(() => {
+  if (!CheckSound.checked) {
+    alert("No esta activado el Sonido del llamador.");
+  }
+}, 2000);
 CheckSound.addEventListener("change", playSound);
