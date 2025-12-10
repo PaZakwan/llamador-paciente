@@ -1,4 +1,4 @@
-import fs from "fs";
+import {readFile, writeFile} from "fs/promises";
 import {resolve} from "path";
 
 import {Llamador} from "#MAIN_FOLDER/models/llamador.js";
@@ -140,10 +140,7 @@ export class LlamadorControl {
         // Buscar data en file
         let file = null;
         try {
-          file = await fs.promises.readFile(
-            resolve(process.env.MAIN_FOLDER, `./data/llamador.json`),
-            "utf8"
-          );
+          file = await readFile(resolve(process.env.MAIN_FOLDER, "./data/llamador.json"), "utf8");
           file = JSON.parse(file);
           // borrar file si no es ACTUAL
           if (file?.fechaData?.slice(0, 10) !== ahora.toISOString().slice(0, 10)) {
@@ -188,7 +185,7 @@ export class LlamadorControl {
           }
         }
         // file existe, DB no existe -> Actualizar con file
-        else if (file && !DB?.length > 0) {
+        else if (file && !(DB?.length > 0)) {
           this.fechaData = file.fechaData;
           this.data = file.data;
           console.log(`${ahora.toISOString()} <=> Se han cargado los datos locales.`);
@@ -229,6 +226,7 @@ export class LlamadorControl {
 
   reiniciarData() {
     try {
+      this.fechaData = new Date().toISOString();
       this.data = {};
 
       console.log(`${new Date().toISOString()} <=> Se han reiniciado los datos.`);
@@ -238,16 +236,31 @@ export class LlamadorControl {
     }
   }
 
-  grabarData({area = null} = {}) {
+  async grabarData({area = null} = {}) {
     try {
       let ahora = new Date();
+
+      // grabar data en file
+      try {
+        await writeFile(
+          resolve(process.env.MAIN_FOLDER, "./data/llamador.json"),
+          JSON.stringify({
+            fechaData: ahora.toISOString(),
+            data: this.data,
+          }),
+          "utf8"
+        );
+      } catch (error) {
+        console.error("Error - LlamadorControl-grabarData writeFile: ", error);
+      }
+
       // grabar data en DB
       if (process.env.URLDB) {
         try {
           // recorrer areas de this.data [{<area>:{}}] si area seleccionada (parametro de la funcion) no existe
-          (area ? [area] : Object.keys(this.data)).forEach((key) => {
-            //   crear un documento por dia, si es del mismo dia actualizarlo.
-            Llamador.findOneAndUpdate(
+          for (const key of area ? [area] : Object.keys(this.data)) {
+            // crear un documento por dia, si es del mismo dia actualizarlo.
+            await Llamador.findOneAndUpdate(
               {
                 fechaData: {
                   // fechaData de hoy
@@ -269,27 +282,12 @@ export class LlamadorControl {
                 setDefaultsOnInsert: true,
               }
             ).exec();
-          });
+          }
         } catch (error) {
           // fallo la consulta a la DB
           console.error("Error - LlamadorControl-grabarData findOneAndUpdate: ", error);
         }
       }
-
-      // grabar data en file
-      fs.writeFile(
-        resolve(process.env.MAIN_FOLDER, `./data/llamador.json`),
-        JSON.stringify({
-          fechaData: ahora.toISOString(),
-          data: this.data,
-        }),
-        {encoding: "utf8", flag: "w"},
-        (error) => {
-          if (error) {
-            console.error("Error - LlamadorControl-grabarData writeFile: ", error);
-          }
-        }
-      );
     } catch (error) {
       console.error("Error - LlamadorControl-grabarData: ", error);
     }
