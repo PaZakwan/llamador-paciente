@@ -239,6 +239,7 @@ export class LlamadorControl {
   async grabarData({area = null} = {}) {
     try {
       let ahora = new Date();
+      this.fechaData = ahora.toISOString();
 
       // grabar data en file
       try {
