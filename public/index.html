@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
   <head>
     <meta charset="UTF-8" />
@@ -6,17 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>LLamador de Personas</title>
 
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/style.css" />
   </head>
 
   <body class="container-fluid">
-    <h1 class="display-2 fw-bold my-5">LLamador de Personas</h1>
-
     <div class="row justify-content-center">
-      <!-- <div class="col-12 text-center my-3">
-        <h1>Index</h1>
-      </div> -->
+      <div class="col-12">
+        <h1 class="display-2 fw-bold my-5">LLamador de Personas</h1>
+      </div>
       <div class="col-12 col-md-6 text-center">
         <form id="form" action="" class="form-group">
           <div class="col-12 text-start">
@@ -58,7 +57,6 @@
       </div>
     </div>
 
-    <div style="height: 46px"></div>
     <footer class="fixed-bottom row align-items-center bg-info py-1 px-5">
       <p class="small col-6 align-self-center text-start mb-0">
         <a
@@ -98,7 +96,7 @@
       </p>
     </footer>
 
-    <script src="js/libs/bootstrap.bundle.min.js"></script>
+    <script src="./js/libs/bootstrap.bundle.min.js"></script>
     <script>
       document.getElementById("boxInput").addEventListener("keydown", (event) => {
         if (event.key === "Enter") {
@@ -106,18 +104,18 @@
         }
       });
       const toPublico = (event) => {
-        let area = document.getElementById("area-select").value;
+        const area = document.getElementById("area-select").value;
         if (!area) {
           document.getElementById("form").classList.add("was-validated");
           // alert("Seleccione un Area.");
           return;
         }
         event.preventDefault();
-        window.location.href = `publico.html?area=${area}`;
+        window.location.href = `./publico.html?area=${area}`;
       };
       const toBox = (event) => {
-        let area = document.getElementById("area-select").value;
-        let boxInput = document.getElementById("boxInput").value;
+        const area = document.getElementById("area-select").value;
+        const boxInput = document.getElementById("boxInput").value;
         if (!area) {
           document.getElementById("form").classList.add("was-validated");
           // alert("Seleccione un Area.");
@@ -129,17 +127,17 @@
           return;
         }
         event.preventDefault();
-        window.location.href = `box.html?area=${area}&boxName=${boxInput}`;
+        window.location.href = `./box.html?area=${area}&boxName=${boxInput}`;
       };
       const toAgregarPersona = (event) => {
-        let area = document.getElementById("area-select").value;
+        const area = document.getElementById("area-select").value;
         if (!area) {
           document.getElementById("form").classList.add("was-validated");
           // alert("Seleccione un Area.");
           return;
         }
         event.preventDefault();
-        window.location.href = `agregar-persona.html?area=${area}`;
+        window.location.href = `./agregar-persona.html?area=${area}`;
       };
     </script>
   </body>
