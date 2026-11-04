@@ -1,13 +1,19 @@
 // Comando para establecer la conexión
 import {io} from "/socket.io/socket.io.esm.min.js";
-const audioLlamado = new Audio("audio/new-llamado.mp3");
+const audioLlamado = new Audio("./audio/new-llamado.mp3");
 
 const searchParams = new URLSearchParams(window.location.search);
 if (!searchParams.has("area")) {
-  window.location = "index.html";
+  window.location = "./index.html";
   alert("El area es necesaria.");
 }
 const area = searchParams.get("area")?.trim().toLowerCase();
+
+if (!area) {
+  window.location = "./index.html";
+  alert("El area es necesaria.");
+}
+
 document.getElementById("area").innerText = area;
 
 const socket = io("/llamador", {

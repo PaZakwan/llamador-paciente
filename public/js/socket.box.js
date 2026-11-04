@@ -3,15 +3,25 @@ import {io} from "/socket.io/socket.io.esm.min.js";
 
 const searchParams = new URLSearchParams(window.location.search);
 if (!searchParams.has("area")) {
-  window.location = "index.html";
+  window.location = "./index.html";
   alert("El area es necesaria.");
 }
 if (!searchParams.has("boxName")) {
-  window.location = "index.html";
+  window.location = "./index.html";
   alert("El consultorio es necesario.");
 }
 const area = searchParams.get("area")?.trim().toLowerCase();
 const boxName = searchParams.get("boxName")?.trim().toLowerCase();
+
+if (!area) {
+  window.location = "./index.html";
+  alert("El area es necesaria.");
+}
+if (!boxName) {
+  window.location = "./index.html";
+  alert("El consultorio es necesario.");
+}
+
 document.getElementById("area").innerText = area;
 
 const socket = io("/llamador", {
