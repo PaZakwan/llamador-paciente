@@ -14,8 +14,7 @@
     "prebuild": "npm run clean",
     "build": "set NODE_OPTIONS=--max_old_space_size=2048 && ncc build server/server.js -o dist",
     "testB": "nodemon dist/index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "echo Skip build on Heroku"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig": {
     "ignore": [
@@ -25,12 +24,12 @@
   "author": "Paz Juan",
   "license": "AGPL-3.0-only",
   "dependencies": {
-    "express": "^4.22.1",
-    "mongoose": "^8.20.1",
-    "socket.io": "^4.8.1"
+    "express": "^4.22.3",
+    "mongoose": "^8.24.8",
+    "socket.io": "^4.8.4"
   },
   "engines": {
-    "node": "20.x",
-    "npm": "10.x"
+    "node": "20.x - 26.x",
+    "npm": "10.x - 12.x"
   }
 }
