@@ -238,7 +238,7 @@ export class LlamadorControl {
 
   async grabarData({area = null} = {}) {
     try {
-      let ahora = new Date();
+      const ahora = new Date();
       this.fechaData = ahora.toISOString();
 
       // grabar data en file
@@ -249,7 +249,7 @@ export class LlamadorControl {
             fechaData: ahora.toISOString(),
             data: this.data,
           }),
-          "utf8"
+          "utf8",
         );
       } catch (error) {
         console.error("Error - LlamadorControl-grabarData writeFile: ", error);
@@ -277,11 +277,9 @@ export class LlamadorControl {
                 personasEsperan: this.data[key].personasEsperan,
               },
               {
-                // returnOriginal: false,
-                runValidators: true,
                 upsert: true,
                 setDefaultsOnInsert: true,
-              }
+              },
             ).exec();
           }
         } catch (error) {

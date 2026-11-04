@@ -1,6 +1,11 @@
 // Comando para establecer la conexión
 import {io} from "/socket.io/socket.io.esm.min.js";
-const socket = io("/llamador");
+
+const socket = io("/llamador", {
+  query: {
+    area,
+  },
+});
 
 let ultimoAgregadoLabel = document.getElementById("lblUltimaPersonaAgregada");
 

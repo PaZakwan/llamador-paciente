@@ -1,57 +1,45 @@
 import mongoose from "mongoose";
 
-const schemaOptions = {
-  toObject: {
-    getters: true,
+const LlamadorSchema = new mongoose.Schema({
+  fechaData: {
+    type: Date,
+    default: Date.now,
   },
-  toJSON: {
-    getters: true,
+  area: {
+    type: String,
+    trim: true,
+    required: [true, "El Area a gestionar es necesario."],
   },
-};
 
-const LlamadorSchema = new mongoose.Schema(
-  {
-    fechaData: {
-      type: Date,
-      default: Date.now,
-    },
-    area: {
-      type: String,
-      trim: true,
-      required: [true, "El Area a gestionar es necesario."],
-    },
-
-    ultimosLlamados: {
-      type: [
-        {
-          nombre: {
-            type: String,
-            trim: true,
-          },
-          box: {
-            type: String,
-            trim: true,
-          },
+  ultimosLlamados: {
+    type: [
+      {
+        nombre: {
+          type: String,
+          trim: true,
         },
-      ],
-      _id: false,
-      default: void 0,
-    },
-    personasEsperan: {
-      type: [
-        {
-          nombre: {
-            type: String,
-            trim: true,
-          },
+        box: {
+          type: String,
+          trim: true,
         },
-      ],
-      _id: false,
-      default: void 0,
-    },
+      },
+    ],
+    _id: false,
+    default: void 0,
   },
-  schemaOptions
-);
+  personasEsperan: {
+    type: [
+      {
+        nombre: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
+    _id: false,
+    default: void 0,
+  },
+});
 
 // LlamadorSchema.virtual("nombreC").get(function () {
 //   try {

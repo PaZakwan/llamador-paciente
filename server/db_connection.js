@@ -5,6 +5,22 @@ if (process.env.NODE_ENV === "dev") {
 }
 mongoose.set("allowDiskUse", true);
 
+mongoose.set("toJSON", {virtuals: true, getters: true, versionKey: false});
+mongoose.set("toObject", {virtuals: true, getters: true, versionKey: false});
+
+// Plugin global
+mongoose.plugin((schema) => {
+  schema.pre(["findOneAndUpdate", "updateOne", "updateMany"], function (next) {
+    // 'this' se refiere al objeto Query
+    this.setOptions({
+      new: true,
+      runValidators: true,
+      context: "query",
+    });
+    next();
+  });
+});
+
 // config default connection
 mongoose.connection
   .on("error", (err) => {

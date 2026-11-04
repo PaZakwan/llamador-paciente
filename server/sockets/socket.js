@@ -48,7 +48,7 @@ io.of("/llamador").on("connection", (client) => {
         });
       }
 
-      let personaLlamada = llamadorControl.llamarPersona({
+      const personaLlamada = llamadorControl.llamarPersona({
         area: client.handshake.query.area,
         nombre: data.nombre,
         box: data.box,
@@ -79,7 +79,7 @@ io.of("/llamador").on("connection", (client) => {
         });
       }
 
-      let agregado = llamadorControl.addPersonaEspera({
+      const agregado = llamadorControl.addPersonaEspera({
         area: client.handshake.query.area,
         nombre: data.nombre,
       });
@@ -109,7 +109,7 @@ io.of("/llamador").on("connection", (client) => {
         });
       }
 
-      let siguientePersona = llamadorControl.llamarSiguientePersona({
+      const siguientePersona = llamadorControl.llamarSiguientePersona({
         area: client.handshake.query.area,
         box: data.box,
       });
