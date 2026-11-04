@@ -6,7 +6,7 @@ process.env.NODE_ENV = process.env.NODE_ENV ?? "dev";
 // ============================
 //  Puerto
 // ============================
-process.env.PORT = process.env.PORT ?? 80;
+process.env.PORT = process.env.PORT ?? (process.env.NODE_ENV === "dev" ? 80 : 3030);
 
 // ============================
 //  IP LOCAL O SERVIDOR
@@ -26,18 +26,30 @@ if (process.env.BASE_URL) {
 }
 
 // ============================
+//  SUBRUTA_APP
+// ============================
+
+// "sub_folder"
+process.env.SUBRUTA_APP = process.env.SUBRUTA_APP ?? "/";
+process.env.SUBRUTA_APP = `/${process.env.SUBRUTA_APP.replace(/^\/|\/$/g, "")}`;
+
+// ============================
 //  Base de datos
 // ============================
 // Dejar string vacio ("") si no quiere conectar/reconectar a mongoDB (logs)
 process.env.URLDB = process.env.MONGO_URI ?? "mongodb://127.0.0.1:27017/test-llamador";
-// serverSelectionTimeoutMS: Tiempo en retornar error de reconexion.
 // bufferCommands: Tiempo de espera en la ejecucion de las query de mongo, no espera antes de retornar un error.
 // family: 4; No intenta conectar con IPv6.
+// serverSelectionTimeoutMS: Tiempo en retornar error de reconexion (30s).
+// heartbeatFrequencyMS: Cada cuanto consulta el estado de conectividad (30s)
+// journal: true; Fuerza a escribir en el Journal (disco duro) antes de responder "OK".
 process.env.DBoptions = JSON.stringify({
-  serverSelectionTimeoutMS: 8 * 1000,
   bufferCommands: false,
-  family: 4,
   autoIndex: false,
+  family: 4,
+  serverSelectionTimeoutMS: 8 * 1000,
+  heartbeatFrequencyMS: 10 * 1000,
+  journal: true,
 });
 
 // ============================
@@ -80,11 +92,6 @@ process.env.DBoptions = JSON.stringify({
 //     "http://localhost:80",
 //     "http://localhost:8080", //VUE develop
 //     `http://${process.env.BASE_URL}:8080`, //VUE develop
-//     "http://ssaludmoreno.onrender.com",
-//     "http://www.ssaludmoreno.com",
-//     "http://www.secretariadesaludmoreno.com",
-//     "http://192.168.185.9",
-//     "http://192.168.104.6",
 //     `https://${process.env.BASE_URL}`,
 //     `https://${process.env.BASE_URL}:${process.env.PORT}`,
 //     `https://${process.env.BASE_URL}:443`,
@@ -93,13 +100,7 @@ process.env.DBoptions = JSON.stringify({
 //     "https://localhost:443",
 //     "https://localhost:8080", //VUE develop
 //     `https://${process.env.BASE_URL}:8080`, //VUE develop
-//     "https://ssaludmoreno.onrender.com",
-//     "https://www.ssaludmoreno.com",
-//     "https://www.secretariadesaludmoreno.com",
-//     "https://192.168.185.9",
-//     "https://192.168.104.6",
-//     "https://www.google.com",
-//   ], //servidor que deseas que consuma(FrontEnd) o (*) en caso que sea acceso libre
+//   ], //servidor que deseas que consuma (FrontEnd) o (*) en caso que sea acceso libre
 //   credentials: true,
 //   methods: ["OPTIONS", "GET", "HEAD", "PUT", "PATCH", "POST", "DELETE"],
 //   allowedHeaders: ["Origin", "Content-Type", "Accept", "Authorization", "TimezoneOffset", "token"],

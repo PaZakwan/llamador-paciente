@@ -13,7 +13,14 @@ await import("#MAIN_FOLDER/config.js");
 const app = express();
 const httpServer = createServer(app);
 
-app.use(express.static(resolve(process.env.MAIN_FOLDER, "../public")));
+const ruta_public_fisica = resolve(
+  process.env.MAIN_FOLDER,
+  "..",
+  "public",
+  // process.env.SUBRUTA_APP.replace(/^\//, ""),
+);
+
+app.use(`${process.env.SUBRUTA_APP}`, express.static(ruta_public_fisica));
 
 // MONGODB CONEXIONES DB
 const {startConnectionDB} = await import("#MAIN_FOLDER/db_connection.js");
@@ -42,7 +49,9 @@ httpServer.listen(process.env.PORT, (error) => {
 
   console.log(
     `===== ${new Date().toISOString()} <=> Ejecutando Servidor en: ${JSON.parse(
-      process.env.BASE_URL
-    ).join("; ")}. =====`
+      process.env.BASE_URL,
+    ).join(
+      "; ",
+    )}${process.env.SUBRUTA_APP !== "/" ? ` - SubRuta: ${process.env.SUBRUTA_APP}` : ""}. =====`,
   );
 });
