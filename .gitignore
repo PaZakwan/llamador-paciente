@@ -8,6 +8,7 @@
 
 # Ignora la carpeta node_modules
 node_modules/
+nodemon.json
 server/data/*
 server/daemon/*
 
