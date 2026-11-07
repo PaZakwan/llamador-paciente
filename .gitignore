@@ -13,6 +13,7 @@ server/data/*
 server/daemon/*
 
 # Ignora archivos
+public/js/config.json
 
 # omitir ignoracion xD
 !server/data/.gitkeep
