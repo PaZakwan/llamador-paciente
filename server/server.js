@@ -3,7 +3,8 @@ import {createServer} from "http";
 import {Server} from "socket.io";
 
 // Variable global para la ruta donde corre el server
-import {resolve} from "path";
+import {resolve, dirname} from "path";
+import fs from "fs/promises";
 process.env.MAIN_FOLDER = resolve(import.meta.dirname);
 
 // Variables de Configuracion
@@ -20,6 +21,14 @@ const ruta_public_fisica = resolve(
   // process.env.SUBRUTA_APP.replace(/^\//, ""),
 );
 
+// Crear config.json en public que usara el Front.
+const ruta_public_config = resolve(ruta_public_fisica, "js", "config.json");
+const public_config = {
+  io_path: `${process.env.SUBRUTA_APP}/socket.io`,
+};
+await fs.mkdir(dirname(ruta_public_config), {recursive: true});
+await fs.writeFile(ruta_public_config, JSON.stringify(public_config, null, 2), "utf-8");
+
 app.use(`${process.env.SUBRUTA_APP}`, express.static(ruta_public_fisica));
 
 // MONGODB CONEXIONES DB
@@ -29,6 +38,7 @@ const DB = await startConnectionDB();
 // SOCKET IO = esta es la comunicacion del backend (add Socket listen en el WebServer)
 export const io = new Server(httpServer, {
   /* options */
+  path: `${process.env.SUBRUTA_APP}/socket.io`,
   connectionStateRecovery: {
     // the backup duration of the sessions and the packets
     maxDisconnectionDuration: 2 * 60 * 1000,

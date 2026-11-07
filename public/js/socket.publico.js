@@ -1,6 +1,6 @@
-// Comando para establecer la conexión
-import {io} from "/socket.io/socket.io.esm.min.js";
-const audioLlamado = new Audio("./audio/new-llamado.mp3");
+import {obtenerConfig} from "./get-config.js";
+const urlAudio = new URL("./../audio/new-llamado.mp3", import.meta.url).href;
+const audioLlamado = new Audio(urlAudio);
 
 const searchParams = new URLSearchParams(window.location.search);
 if (!searchParams.has("area")) {
@@ -16,10 +16,15 @@ if (!area) {
 
 document.getElementById("area").innerText = area;
 
+const config = await obtenerConfig();
+
 const socket = io("/llamador", {
+  path: config.io_path,
   query: {
     area,
   },
+  autoConnect: true,
+  reconnectionAttempts: 5,
 });
 
 let lblBoxs = [

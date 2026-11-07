@@ -1,10 +1,14 @@
-// Comando para establecer la conexión
-import {io} from "/socket.io/socket.io.esm.min.js";
+import {obtenerConfig} from "./get-config.js";
+
+const config = await obtenerConfig();
 
 const socket = io("/llamador", {
+  path: config.io_path,
   query: {
     area,
   },
+  autoConnect: true,
+  reconnectionAttempts: 5,
 });
 
 let ultimoAgregadoLabel = document.getElementById("lblUltimaPersonaAgregada");

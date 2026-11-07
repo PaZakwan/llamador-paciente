@@ -1,5 +1,4 @@
-// Comando para establecer la conexión
-import {io} from "/socket.io/socket.io.esm.min.js";
+import {obtenerConfig} from "./get-config.js";
 
 const searchParams = new URLSearchParams(window.location.search);
 if (!searchParams.has("area")) {
@@ -24,10 +23,15 @@ if (!boxName) {
 
 document.getElementById("area").innerText = area;
 
+const config = await obtenerConfig();
+
 const socket = io("/llamador", {
+  path: config.io_path,
   query: {
     area,
   },
+  autoConnect: true,
+  reconnectionAttempts: 5,
 });
 document.getElementById("lblBox").innerText = `${boxName ?? "..."}`;
 
