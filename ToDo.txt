@@ -2,45 +2,6 @@
 #  To Do   #
 ############
 
-- [ ]   !! Public/Server => Usar env.SUBRUTA_APP para la conexion con socket.io.
-  - [ ]   Public (Cliente) => public/js -> socket.publico.js, socket.box.js y socket.agregar-persona.js
-      CREAR path en un json en public al iniciar el servidor y obtenerlos del public para luego cargarlos en los script de js
-        const socket = io("/llamador", { // <-- Esto le dice en que servicio de todos los que podrian haber debe conectarse.
-          path: "/llamador/socket.io", // <-- Esto le dice a donde conectar el WebSocket real
-          query: {area},
-        });
-  - [ ]   Server =>
-    const io = new Server(server, {
-      path: "/llamador/socket.io" // <-- Debe coincidir exactamente con el cliente
-    });
-    io.of("/llamador").on("connection", (client) => { ... });
-
-  - [ ]   NGINX => Esto no se si es necesario, luego chequear
-      Mas eficiente si esta por separado (se degradara a Long-Polling si no va por separado con Upgrade y la version 1.1+)
-    server {
-        listen 80;
-        server_name tudominio.com;
-
-        # 2. El túnel exclusivo para Socket.io
-        location /llamador/socket.io/ {
-            proxy_pass http://localhost:3000/llamador/socket.io/;
-            proxy_http_version 1.1;
-            proxy_set_header Upgrade $http_upgrade;
-            proxy_set_header Connection "Upgrade";
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-        }
-
-        # 1. Tu aplicación principal y archivos estáticos
-        location /llamador/ {
-            proxy_pass http://localhost:3000/; # <-- Ojo con la barra diagonal '/' al final, es clave para "reescribir" la ruta interna
-            proxy_set_header Host $host;
-            proxy_set_header X-Real-IP $remote_addr;
-            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            proxy_set_header X-Forwarded-Proto $scheme;
-        }
-    }
-
 - [ ]   Public/Server => Poder volver a Llamar a la ultima Persona llamada del Box.
 
 - [ ]   Public => Mostrar en el Box las personas llamadas del area (mini pantalla publica o una tabla).
